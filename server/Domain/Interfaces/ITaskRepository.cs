@@ -4,10 +4,10 @@ namespace Core.Interfaces
 {
     public interface ITaskRepository
     {
-        Task<TaskItem> GetByIdAsync(int id);
+        Task<TaskItem> GetByIdAsync(Guid id);
         Task<IEnumerable<TaskItem>> GetAllAsync();
         Task AddAsync(TaskItem task);
         Task UpdateAsync(TaskItem task);
-        Task DeleteAsync(int id);
+        Task DeleteAsync(Guid id);
     }
 }

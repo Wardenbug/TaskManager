@@ -1,6 +1,10 @@
-﻿using Core.Domain.Entities;
+﻿using Application.DTOs;
+using Application.Services;
+using AutoMapper;
+using Core.Domain.Entities;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.DTOs;
 
 namespace Presentation.Controllers
 {
@@ -8,35 +12,27 @@ namespace Presentation.Controllers
     [Route("api/[controller]")]
     public class TasksController : ControllerBase
     {
-        private readonly ITaskRepository _taskRepository;
+        private readonly TaskService _taskService;
+        private readonly IMapper _mapper;
 
-        public TasksController(ITaskRepository taskRepository)
+        public TasksController(TaskService taskService, IMapper mapper)
         {
-            _taskRepository = taskRepository;
+            _taskService = taskService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var tasks = await _taskRepository.GetAllAsync();
+            var tasks = await _taskService.GetAllTasksAsync();
             return Ok(tasks);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create([FromBody] CreateTaskRequest request)
         {
-            var taskItem = new TaskItem
-            {
-                Id = Guid.NewGuid(),
-                Title = "New Task",
-                Description = "Task Description",
-                IsCompleted = false,
-                CreatedAt = DateTime.UtcNow,
-                CompletedAt = null
-            };
-            await _taskRepository.AddAsync(taskItem);
-
-            return Ok(taskItem);
+            await _taskService.AddTaskAsync(_mapper.Map<CreateTaskDto>(request));
+            return Ok("Created");
         }
     }
 }
