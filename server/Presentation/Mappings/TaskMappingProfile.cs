@@ -13,6 +13,7 @@ namespace Presentation.Mappings
             CreateMap<CreateTaskRequest, CreateTaskDto>();
             CreateMap<CreateTaskDto, TaskItem>();
             CreateMap<TaskItem, TaskEntity>();
+            CreateMap<TaskItem, TaskDto>();
         }
     }
 }

@@ -16,10 +16,12 @@ namespace Infrastructure.Data.Repositories
             _context = context;
             _mapper = mapper;
         }
-        public async Task AddAsync(TaskItem task)
+        public async Task<TaskItem> AddAsync(TaskItem task)
         {
             await _context.Tasks.AddAsync(_mapper.Map<TaskEntity>(task));
             await _context.SaveChangesAsync();
+
+            return task;
         }
 
         public async Task DeleteAsync(Guid id)

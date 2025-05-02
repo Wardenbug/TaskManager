@@ -15,19 +15,29 @@ namespace Application.Services
             _taskRepository = taskRepository;
             _mapper = mapper;
         }
-        public async Task<TaskItem> GetTaskByIdAsync(Guid id)
+        public async Task<TaskDto> GetTaskByIdAsync(Guid id)
         {
             var item = await _taskRepository.GetByIdAsync(id);
-            return item;
+
+            if (item is null)
+            {
+                throw new KeyNotFoundException($"Task with id {id} not found.");
+            }
+
+            return _mapper.Map<TaskDto>(item);
         }
         public async Task<IEnumerable<TaskItem>> GetAllTasksAsync()
         {
             var items = await _taskRepository.GetAllAsync();
             return items;
         }
-        public async Task AddTaskAsync(CreateTaskDto task)
+        public async Task<TaskDto> AddTaskAsync(CreateTaskDto task)
         {
-            await _taskRepository.AddAsync(_mapper.Map<TaskItem>(task));
+            var newTask = _mapper.Map<TaskItem>(task);
+            newTask.Id = Guid.NewGuid();
+
+            await _taskRepository.AddAsync(newTask);
+            return _mapper.Map<TaskDto>(newTask);
         }
         public void UpdateTaskAsync()
         {

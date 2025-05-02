@@ -28,11 +28,22 @@ namespace Presentation.Controllers
             return Ok(tasks);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            var task = await _taskService.GetTaskByIdAsync(id);
+            if (task is null)
+            {
+                return NotFound();
+            }
+            return Ok(task);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateTaskRequest request)
         {
-            await _taskService.AddTaskAsync(_mapper.Map<CreateTaskDto>(request));
-            return Ok("Created");
+            var task = await _taskService.AddTaskAsync(_mapper.Map<CreateTaskDto>(request));
+            return CreatedAtAction(nameof(GetById), new { id = task.Id }, request);
         }
     }
 }
