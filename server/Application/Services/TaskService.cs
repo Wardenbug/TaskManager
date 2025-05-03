@@ -26,10 +26,10 @@ namespace Application.Services
 
             return _mapper.Map<TaskDto>(item);
         }
-        public async Task<IEnumerable<TaskItem>> GetAllTasksAsync()
+        public async Task<IEnumerable<TaskDto>> GetAllTasksAsync()
         {
             var items = await _taskRepository.GetAllAsync();
-            return items;
+            return _mapper.Map<IEnumerable<TaskDto>>(items);
         }
         public async Task<TaskDto> AddTaskAsync(CreateTaskDto task)
         {

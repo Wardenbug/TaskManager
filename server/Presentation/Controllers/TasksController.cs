@@ -1,8 +1,6 @@
 ﻿using Application.DTOs;
 using Application.Services;
 using AutoMapper;
-using Core.Domain.Entities;
-using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.DTOs;
 
@@ -26,6 +24,13 @@ namespace Presentation.Controllers
         {
             var tasks = await _taskService.GetAllTasksAsync();
             return Ok(tasks);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await _taskService.DeleteTaskAsync(id);
+            return NoContent();
         }
 
         [HttpGet("{id}")]
