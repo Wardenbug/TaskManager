@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Core.Domain.Entities;
 using Core.Interfaces;
 using Infrastructure.Data.Entities;
@@ -37,39 +38,29 @@ namespace Infrastructure.Data.Repositories
         public async Task<IEnumerable<TaskItem>> GetAllAsync()
         {
             return await _context.Tasks
-                .Select(t => new TaskItem
-                {
-                    Id = t.Id,
-                    Title = t.Title,
-                    Description = t.Description,
-                    IsCompleted = t.IsCompleted,
-                    CreatedAt = t.CreatedAt,
-                    CompletedAt = t.CompletedAt
-                })
+                .AsNoTracking()
+                .ProjectTo<TaskItem>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
 
         public async Task<TaskItem> GetByIdAsync(Guid id)
         {
-            var item = await _context.Tasks.FindAsync(id);
+            var item = await _context.Tasks
+                .AsNoTracking()
+                .ProjectTo<TaskItem>(_mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync(task => task.Id == id);
+
             if (item is null)
             {
-                throw new Exception($"Task with id {id} not found");
+                throw new KeyNotFoundException($"Task with id {id} not found");
             }
-            return new TaskItem
-            {
-                Id = item.Id,
-                Title = item.Title,
-                Description = item.Description,
-                IsCompleted = item.IsCompleted,
-                CreatedAt = item.CreatedAt,
-                CompletedAt = item.CompletedAt
-            };
+            return item;
         }
 
-        public Task UpdateAsync(TaskItem task)
+        public async Task UpdateAsync(TaskItem task)
         {
-            throw new NotImplementedException();
+            _context.Tasks.Update(_mapper.Map<TaskEntity>(task));
+            await _context.SaveChangesAsync();
         }
     }
 }

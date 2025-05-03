@@ -39,9 +39,19 @@ namespace Application.Services
             await _taskRepository.AddAsync(newTask);
             return _mapper.Map<TaskDto>(newTask);
         }
-        public void UpdateTaskAsync()
+        public async Task UpdateTaskAsync(Guid id, UpdateTaskDto task)
         {
-            throw new NotImplementedException();
+            var item = await _taskRepository.GetByIdAsync(id);
+
+            if(item is null)
+            {
+                throw new KeyNotFoundException($"Task with id {id} not found.");
+            }
+
+            var testItem = _mapper.Map(task, item);
+
+            await _taskRepository.UpdateAsync(testItem);
+
         }
         public async Task DeleteTaskAsync(Guid id)
         {
