@@ -15,6 +15,10 @@
       "RelativeMoniker": "D:0:0:{D9D014E4-D38F-568F-4A57-1348CA680BC9}|server\\Presentation\\Presentation.csproj|solutionrelative:server\\presentation\\controllers\\taskscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{D9D014E4-D38F-568F-4A57-1348CA680BC9}|server\\Presentation\\Presentation.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\presentation\\mappings\\taskmappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9D014E4-D38F-568F-4A57-1348CA680BC9}|server\\Presentation\\Presentation.csproj|solutionrelative:server\\presentation\\mappings\\taskmappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{2D1F734E-6FDD-6F78-E815-31C9397167EC}|server\\Infrastructure\\Infrastructure.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\infrastructure\\data\\repositories\\taskrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2D1F734E-6FDD-6F78-E815-31C9397167EC}|server\\Infrastructure\\Infrastructure.csproj|solutionrelative:server\\infrastructure\\data\\repositories\\taskrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -25,14 +29,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{3D4997DC-BEC7-3CA2-3743-0197A4CD8539}|server\\Application\\Application.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\application\\dtos\\updatetaskdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3D4997DC-BEC7-3CA2-3743-0197A4CD8539}|server\\Application\\Application.csproj|solutionrelative:server\\application\\dtos\\updatetaskdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ABBC1EB0-3142-AB92-3F4A-47A912EE3D7E}|server\\Domain\\Core.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\domain\\interfaces\\itaskrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ABBC1EB0-3142-AB92-3F4A-47A912EE3D7E}|server\\Domain\\Core.csproj|solutionrelative:server\\domain\\interfaces\\itaskrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D9D014E4-D38F-568F-4A57-1348CA680BC9}|server\\Presentation\\Presentation.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\presentation\\mappings\\taskmappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D9D014E4-D38F-568F-4A57-1348CA680BC9}|server\\Presentation\\Presentation.csproj|solutionrelative:server\\presentation\\mappings\\taskmappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D9D014E4-D38F-568F-4A57-1348CA680BC9}|server\\Presentation\\Presentation.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\presentation\\dtos\\createtaskrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -76,7 +72,7 @@
               "RelativeDocumentMoniker": "server\\Presentation\\Presentation.csproj",
               "ToolTip": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Presentation\\Presentation.csproj",
               "RelativeToolTip": "server\\Presentation\\Presentation.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABFAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
               "WhenOpened": "2025-05-03T10:11:30.085Z",
               "EditorCaption": ""
@@ -88,19 +84,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "ITaskRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Domain\\Interfaces\\ITaskRepository.cs",
-              "RelativeDocumentMoniker": "server\\Domain\\Interfaces\\ITaskRepository.cs",
-              "ToolTip": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Domain\\Interfaces\\ITaskRepository.cs",
-              "RelativeToolTip": "server\\Domain\\Interfaces\\ITaskRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T10:05:20.735Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
               "Title": "UpdateTaskDto.cs",
               "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Application\\DTOs\\UpdateTaskDto.cs",
               "RelativeDocumentMoniker": "server\\Application\\DTOs\\UpdateTaskDto.cs",
@@ -113,7 +96,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "UpdateTaskRequest.cs",
               "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Presentation\\DTOs\\UpdateTaskRequest.cs",
               "RelativeDocumentMoniker": "server\\Presentation\\DTOs\\UpdateTaskRequest.cs",
@@ -126,26 +109,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 3,
               "Title": "TaskMappingProfile.cs",
               "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Presentation\\Mappings\\TaskMappingProfile.cs",
               "RelativeDocumentMoniker": "server\\Presentation\\Mappings\\TaskMappingProfile.cs",
               "ToolTip": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Presentation\\Mappings\\TaskMappingProfile.cs",
               "RelativeToolTip": "server\\Presentation\\Mappings\\TaskMappingProfile.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAA2AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-02T18:07:51.332Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "TaskRepository.cs",
               "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Infrastructure\\Data\\Repositories\\TaskRepository.cs",
               "RelativeDocumentMoniker": "server\\Infrastructure\\Data\\Repositories\\TaskRepository.cs",
               "ToolTip": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Infrastructure\\Data\\Repositories\\TaskRepository.cs",
               "RelativeToolTip": "server\\Infrastructure\\Data\\Repositories\\TaskRepository.cs",
-              "ViewState": "AgIAADAAAAAAAAAAAAAuwEQAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-02T17:48:15.344Z",
               "EditorCaption": ""
@@ -158,7 +141,7 @@
               "RelativeDocumentMoniker": "server\\Application\\Services\\TaskService.cs",
               "ToolTip": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Application\\Services\\TaskService.cs",
               "RelativeToolTip": "server\\Application\\Services\\TaskService.cs",
-              "ViewState": "AgIAACgAAAAAAAAAAAAkwDgAAAAzAAAAAAAAAA==",
+              "ViewState": "AgIAABwAAAAAAAAAAAA1wDMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-02T17:45:54.667Z",
               "EditorCaption": ""
@@ -171,14 +154,14 @@
               "RelativeDocumentMoniker": "server\\Presentation\\Controllers\\TasksController.cs",
               "ToolTip": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Presentation\\Controllers\\TasksController.cs",
               "RelativeToolTip": "server\\Presentation\\Controllers\\TasksController.cs",
-              "ViewState": "AgIAACwAAAAAAAAAAAAswDsAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-02T17:45:39.025Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 7,
               "Title": "CreateTaskRequest.cs",
               "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Presentation\\DTOs\\CreateTaskRequest.cs",
               "RelativeDocumentMoniker": "server\\Presentation\\DTOs\\CreateTaskRequest.cs",
@@ -191,7 +174,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 11,
               "Title": "TaskItem.cs",
               "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Domain\\Domain\\Entities\\TaskItem.cs",
               "RelativeDocumentMoniker": "server\\Domain\\Domain\\Entities\\TaskItem.cs",
@@ -203,7 +186,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 10,
               "Title": "TaskDto.cs",
               "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Application\\DTOs\\TaskDto.cs",
               "RelativeDocumentMoniker": "server\\Application\\DTOs\\TaskDto.cs",
@@ -215,7 +198,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 8,
               "Title": "CreateTaskDto.cs",
               "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Application\\DTOs\\CreateTaskDto.cs",
               "RelativeDocumentMoniker": "server\\Application\\DTOs\\CreateTaskDto.cs",
@@ -227,7 +210,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 9,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Presentation\\Program.cs",
               "RelativeDocumentMoniker": "server\\Presentation\\Program.cs",
@@ -239,7 +222,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 12,
               "Title": "TaskEntity.cs",
               "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Infrastructure\\Data\\Entities\\TaskEntity.cs",
               "RelativeDocumentMoniker": "server\\Infrastructure\\Data\\Entities\\TaskEntity.cs",

@@ -8,8 +8,8 @@ namespace Application.Services
     public class TaskService
     {
         private readonly ITaskRepository _taskRepository;
-
         private readonly IMapper _mapper;
+
         public TaskService(ITaskRepository taskRepository, IMapper mapper)
         {
             _taskRepository = taskRepository;
@@ -43,18 +43,22 @@ namespace Application.Services
         {
             var item = await _taskRepository.GetByIdAsync(id);
 
-            if(item is null)
+            if (item is null)
             {
                 throw new KeyNotFoundException($"Task with id {id} not found.");
             }
 
-            var testItem = _mapper.Map(task, item);
+            _mapper.Map(task, item);
 
-            await _taskRepository.UpdateAsync(testItem);
+            await _taskRepository.UpdateAsync(item);
 
         }
         public async Task DeleteTaskAsync(Guid id)
         {
+            var item = await _taskRepository.GetByIdAsync(id);
+            if (item is null)
+                throw new KeyNotFoundException($"Task with id {id} not found.");
+
             await _taskRepository.DeleteAsync(id);
         }
         public async Task CompleteTaskAsync(Guid id)

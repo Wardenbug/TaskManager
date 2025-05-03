@@ -48,7 +48,7 @@ namespace Presentation.Controllers
         public async Task<IActionResult> Create([FromBody] CreateTaskRequest request)
         {
             var task = await _taskService.AddTaskAsync(_mapper.Map<CreateTaskDto>(request));
-            return CreatedAtAction(nameof(GetById), new { id = task.Id }, request);
+            return CreatedAtAction(nameof(GetById), new { id = task.Id }, task);
         }
 
         [HttpPut("{id}")]
