@@ -1,4 +1,4 @@
-﻿using Application.DTOs;
+﻿using Application.DTOs.TaskDtos;
 using AutoMapper;
 using Core.Domain.Entities;
 using Infrastructure.Data.Entities;

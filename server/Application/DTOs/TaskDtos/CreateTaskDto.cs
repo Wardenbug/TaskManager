@@ -1,8 +1,9 @@
-﻿namespace Application.DTOs
+﻿namespace Application.DTOs.TaskDtos
 {
-    public class UpdateTaskDto
+    public class CreateTaskDto
     {
         public string Title { get; set; }
         public string Description { get; set; }
+
     }
 }

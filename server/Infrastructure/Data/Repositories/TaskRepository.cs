@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Core.Domain;
 using Core.Domain.Entities;
 using Core.Interfaces;
 using Infrastructure.Data.Entities;
@@ -35,12 +36,21 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<IEnumerable<TaskItem>> GetAllAsync()
+        public async Task<(IEnumerable<TaskItem>, int)> GetAllAsync(PaginationParams paginationParams)
         {
-            return await _context.Tasks
+
+            var query = _context.Tasks
                 .AsNoTracking()
+                .Where(task => task.Title.Contains(paginationParams.SearchTerm));
+
+            var totalCount = await query.CountAsync();
+
+            return (await query
+                .OrderBy(task => task.CreatedAt)
+                .Skip((paginationParams.PageNumber - 1) * paginationParams.PageSize)
+                .Take(paginationParams.PageSize)
                 .ProjectTo<TaskItem>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+                .ToListAsync(), totalCount);
         }
 
         public async Task<TaskItem> GetByIdAsync(Guid id)

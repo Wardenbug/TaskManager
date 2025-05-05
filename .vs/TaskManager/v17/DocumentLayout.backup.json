@@ -3,48 +3,64 @@
   "WorkspaceRootPath": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D9D014E4-D38F-568F-4A57-1348CA680BC9}|server\\Presentation\\Presentation.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\presentation\\presentation.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{D9D014E4-D38F-568F-4A57-1348CA680BC9}|server\\Presentation\\Presentation.csproj|solutionrelative:server\\presentation\\presentation.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{D9D014E4-D38F-568F-4A57-1348CA680BC9}|server\\Presentation\\Presentation.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\presentation\\controllers\\taskscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9D014E4-D38F-568F-4A57-1348CA680BC9}|server\\Presentation\\Presentation.csproj|solutionrelative:server\\presentation\\controllers\\taskscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3D4997DC-BEC7-3CA2-3743-0197A4CD8539}|server\\Application\\Application.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\application\\services\\taskservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3D4997DC-BEC7-3CA2-3743-0197A4CD8539}|server\\Application\\Application.csproj|solutionrelative:server\\application\\services\\taskservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D9D014E4-D38F-568F-4A57-1348CA680BC9}|server\\Presentation\\Presentation.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\presentation\\controllers\\taskscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D9D014E4-D38F-568F-4A57-1348CA680BC9}|server\\Presentation\\Presentation.csproj|solutionrelative:server\\presentation\\controllers\\taskscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3D4997DC-BEC7-3CA2-3743-0197A4CD8539}|server\\Application\\Application.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\application\\common\\paginatedresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3D4997DC-BEC7-3CA2-3743-0197A4CD8539}|server\\Application\\Application.csproj|solutionrelative:server\\application\\common\\paginatedresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D9D014E4-D38F-568F-4A57-1348CA680BC9}|server\\Presentation\\Presentation.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\presentation\\mappings\\taskmappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D9D014E4-D38F-568F-4A57-1348CA680BC9}|server\\Presentation\\Presentation.csproj|solutionrelative:server\\presentation\\mappings\\taskmappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ABBC1EB0-3142-AB92-3F4A-47A912EE3D7E}|server\\Domain\\Core.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\domain\\domain\\paginationparams.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ABBC1EB0-3142-AB92-3F4A-47A912EE3D7E}|server\\Domain\\Core.csproj|solutionrelative:server\\domain\\domain\\paginationparams.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ABBC1EB0-3142-AB92-3F4A-47A912EE3D7E}|server\\Domain\\Core.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\domain\\interfaces\\itaskrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ABBC1EB0-3142-AB92-3F4A-47A912EE3D7E}|server\\Domain\\Core.csproj|solutionrelative:server\\domain\\interfaces\\itaskrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3D4997DC-BEC7-3CA2-3743-0197A4CD8539}|server\\Application\\Application.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\application\\application.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{3D4997DC-BEC7-3CA2-3743-0197A4CD8539}|server\\Application\\Application.csproj|solutionrelative:server\\application\\application.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2D1F734E-6FDD-6F78-E815-31C9397167EC}|server\\Infrastructure\\Infrastructure.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\infrastructure\\data\\repositories\\taskrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2D1F734E-6FDD-6F78-E815-31C9397167EC}|server\\Infrastructure\\Infrastructure.csproj|solutionrelative:server\\infrastructure\\data\\repositories\\taskrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{2D1F734E-6FDD-6F78-E815-31C9397167EC}|server\\Infrastructure\\Infrastructure.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\infrastructure\\infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{2D1F734E-6FDD-6F78-E815-31C9397167EC}|server\\Infrastructure\\Infrastructure.csproj|solutionrelative:server\\infrastructure\\infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3D4997DC-BEC7-3CA2-3743-0197A4CD8539}|server\\Application\\Application.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\application\\dtos\\taskdtos\\createtaskdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3D4997DC-BEC7-3CA2-3743-0197A4CD8539}|server\\Application\\Application.csproj|solutionrelative:server\\application\\dtos\\taskdtos\\createtaskdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9D014E4-D38F-568F-4A57-1348CA680BC9}|server\\Presentation\\Presentation.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\presentation\\mappings\\taskmappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9D014E4-D38F-568F-4A57-1348CA680BC9}|server\\Presentation\\Presentation.csproj|solutionrelative:server\\presentation\\mappings\\taskmappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D9D014E4-D38F-568F-4A57-1348CA680BC9}|server\\Presentation\\Presentation.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\presentation\\dtos\\updatetaskrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D9D014E4-D38F-568F-4A57-1348CA680BC9}|server\\Presentation\\Presentation.csproj|solutionrelative:server\\presentation\\dtos\\updatetaskrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3D4997DC-BEC7-3CA2-3743-0197A4CD8539}|server\\Application\\Application.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\application\\dtos\\updatetaskdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3D4997DC-BEC7-3CA2-3743-0197A4CD8539}|server\\Application\\Application.csproj|solutionrelative:server\\application\\dtos\\updatetaskdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3D4997DC-BEC7-3CA2-3743-0197A4CD8539}|server\\Application\\Application.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\application\\dtos\\taskdtos\\updatetaskdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3D4997DC-BEC7-3CA2-3743-0197A4CD8539}|server\\Application\\Application.csproj|solutionrelative:server\\application\\dtos\\taskdtos\\updatetaskdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D9D014E4-D38F-568F-4A57-1348CA680BC9}|server\\Presentation\\Presentation.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\presentation\\dtos\\createtaskrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D9D014E4-D38F-568F-4A57-1348CA680BC9}|server\\Presentation\\Presentation.csproj|solutionrelative:server\\presentation\\dtos\\createtaskrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3D4997DC-BEC7-3CA2-3743-0197A4CD8539}|server\\Application\\Application.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\application\\dtos\\createtaskdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3D4997DC-BEC7-3CA2-3743-0197A4CD8539}|server\\Application\\Application.csproj|solutionrelative:server\\application\\dtos\\createtaskdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{D9D014E4-D38F-568F-4A57-1348CA680BC9}|server\\Presentation\\Presentation.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\presentation\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D9D014E4-D38F-568F-4A57-1348CA680BC9}|server\\Presentation\\Presentation.csproj|solutionrelative:server\\presentation\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3D4997DC-BEC7-3CA2-3743-0197A4CD8539}|server\\Application\\Application.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\application\\dtos\\taskdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3D4997DC-BEC7-3CA2-3743-0197A4CD8539}|server\\Application\\Application.csproj|solutionrelative:server\\application\\dtos\\taskdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3D4997DC-BEC7-3CA2-3743-0197A4CD8539}|server\\Application\\Application.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\application\\dtos\\taskdtos\\taskdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3D4997DC-BEC7-3CA2-3743-0197A4CD8539}|server\\Application\\Application.csproj|solutionrelative:server\\application\\dtos\\taskdtos\\taskdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{ABBC1EB0-3142-AB92-3F4A-47A912EE3D7E}|server\\Domain\\Core.csproj|c:\\users\\danylo\\desktop\\projects\\todoapp\\server\\domain\\domain\\entities\\taskitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -62,19 +78,58 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Presentation",
-              "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Presentation\\Presentation.csproj",
-              "RelativeDocumentMoniker": "server\\Presentation\\Presentation.csproj",
-              "ToolTip": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Presentation\\Presentation.csproj",
-              "RelativeToolTip": "server\\Presentation\\Presentation.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "PaginatedResult.cs",
+              "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Application\\Common\\PaginatedResult.cs",
+              "RelativeDocumentMoniker": "server\\Application\\Common\\PaginatedResult.cs",
+              "ToolTip": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Application\\Common\\PaginatedResult.cs",
+              "RelativeToolTip": "server\\Application\\Common\\PaginatedResult.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-05T16:43:05.197Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Application",
+              "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Application\\Application.csproj",
+              "RelativeDocumentMoniker": "server\\Application\\Application.csproj",
+              "ToolTip": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Application\\Application.csproj*",
+              "RelativeToolTip": "server\\Application\\Application.csproj*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-05-03T10:11:30.085Z",
+              "WhenOpened": "2025-05-05T16:42:48.819Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "PaginationParams.cs",
+              "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Domain\\Domain\\PaginationParams.cs",
+              "RelativeDocumentMoniker": "server\\Domain\\Domain\\PaginationParams.cs",
+              "ToolTip": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Domain\\Domain\\PaginationParams.cs",
+              "RelativeToolTip": "server\\Domain\\Domain\\PaginationParams.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-05T14:48:08.183Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Infrastructure",
+              "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Infrastructure\\Infrastructure.csproj",
+              "RelativeDocumentMoniker": "server\\Infrastructure\\Infrastructure.csproj",
+              "ToolTip": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Infrastructure\\Infrastructure.csproj",
+              "RelativeToolTip": "server\\Infrastructure\\Infrastructure.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-05-05T14:08:03.456Z",
               "EditorCaption": ""
             },
             {
@@ -83,12 +138,25 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 4,
+              "Title": "ITaskRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Domain\\Interfaces\\ITaskRepository.cs",
+              "RelativeDocumentMoniker": "server\\Domain\\Interfaces\\ITaskRepository.cs",
+              "ToolTip": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Domain\\Interfaces\\ITaskRepository.cs",
+              "RelativeToolTip": "server\\Domain\\Interfaces\\ITaskRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-05T14:13:09.334Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "UpdateTaskDto.cs",
-              "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Application\\DTOs\\UpdateTaskDto.cs",
-              "RelativeDocumentMoniker": "server\\Application\\DTOs\\UpdateTaskDto.cs",
-              "ToolTip": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Application\\DTOs\\UpdateTaskDto.cs",
-              "RelativeToolTip": "server\\Application\\DTOs\\UpdateTaskDto.cs",
+              "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Application\\DTOs\\TaskDtos\\UpdateTaskDto.cs",
+              "RelativeDocumentMoniker": "server\\Application\\DTOs\\TaskDtos\\UpdateTaskDto.cs",
+              "ToolTip": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Application\\DTOs\\TaskDtos\\UpdateTaskDto.cs",
+              "RelativeToolTip": "server\\Application\\DTOs\\TaskDtos\\UpdateTaskDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-03T09:54:25.566Z",
@@ -96,7 +164,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 10,
               "Title": "UpdateTaskRequest.cs",
               "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Presentation\\DTOs\\UpdateTaskRequest.cs",
               "RelativeDocumentMoniker": "server\\Presentation\\DTOs\\UpdateTaskRequest.cs",
@@ -104,31 +172,30 @@
               "RelativeToolTip": "server\\Presentation\\DTOs\\UpdateTaskRequest.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T09:51:12.829Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-03T09:51:12.829Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 9,
               "Title": "TaskMappingProfile.cs",
               "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Presentation\\Mappings\\TaskMappingProfile.cs",
               "RelativeDocumentMoniker": "server\\Presentation\\Mappings\\TaskMappingProfile.cs",
               "ToolTip": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Presentation\\Mappings\\TaskMappingProfile.cs",
               "RelativeToolTip": "server\\Presentation\\Mappings\\TaskMappingProfile.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-02T18:07:51.332Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "TaskRepository.cs",
               "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Infrastructure\\Data\\Repositories\\TaskRepository.cs",
               "RelativeDocumentMoniker": "server\\Infrastructure\\Data\\Repositories\\TaskRepository.cs",
               "ToolTip": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Infrastructure\\Data\\Repositories\\TaskRepository.cs",
               "RelativeToolTip": "server\\Infrastructure\\Data\\Repositories\\TaskRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEIAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACYAAAAAAAAAAAAgwAoAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-02T17:48:15.344Z",
               "EditorCaption": ""
@@ -141,27 +208,27 @@
               "RelativeDocumentMoniker": "server\\Application\\Services\\TaskService.cs",
               "ToolTip": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Application\\Services\\TaskService.cs",
               "RelativeToolTip": "server\\Application\\Services\\TaskService.cs",
-              "ViewState": "AgIAABwAAAAAAAAAAAA1wDMAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABMAAAAAAAAAAAAQwCgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-02T17:45:54.667Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "TasksController.cs",
               "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Presentation\\Controllers\\TasksController.cs",
               "RelativeDocumentMoniker": "server\\Presentation\\Controllers\\TasksController.cs",
               "ToolTip": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Presentation\\Controllers\\TasksController.cs",
               "RelativeToolTip": "server\\Presentation\\Controllers\\TasksController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAwB0AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-02T17:45:39.025Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 12,
               "Title": "CreateTaskRequest.cs",
               "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Presentation\\DTOs\\CreateTaskRequest.cs",
               "RelativeDocumentMoniker": "server\\Presentation\\DTOs\\CreateTaskRequest.cs",
@@ -169,12 +236,11 @@
               "RelativeToolTip": "server\\Presentation\\DTOs\\CreateTaskRequest.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-02T18:37:44.775Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-02T18:37:44.775Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 15,
               "Title": "TaskItem.cs",
               "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Domain\\Domain\\Entities\\TaskItem.cs",
               "RelativeDocumentMoniker": "server\\Domain\\Domain\\Entities\\TaskItem.cs",
@@ -186,31 +252,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 14,
               "Title": "TaskDto.cs",
-              "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Application\\DTOs\\TaskDto.cs",
-              "RelativeDocumentMoniker": "server\\Application\\DTOs\\TaskDto.cs",
-              "ToolTip": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Application\\DTOs\\TaskDto.cs",
-              "RelativeToolTip": "server\\Application\\DTOs\\TaskDto.cs",
+              "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Application\\DTOs\\TaskDtos\\TaskDto.cs",
+              "RelativeDocumentMoniker": "server\\Application\\DTOs\\TaskDtos\\TaskDto.cs",
+              "ToolTip": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Application\\DTOs\\TaskDtos\\TaskDto.cs",
+              "RelativeToolTip": "server\\Application\\DTOs\\TaskDtos\\TaskDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-02T18:05:48.347Z"
+              "WhenOpened": "2025-05-02T18:05:48.347Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
               "Title": "CreateTaskDto.cs",
-              "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Application\\DTOs\\CreateTaskDto.cs",
-              "RelativeDocumentMoniker": "server\\Application\\DTOs\\CreateTaskDto.cs",
-              "ToolTip": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Application\\DTOs\\CreateTaskDto.cs",
-              "RelativeToolTip": "server\\Application\\DTOs\\CreateTaskDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Application\\DTOs\\TaskDtos\\CreateTaskDto.cs",
+              "RelativeDocumentMoniker": "server\\Application\\DTOs\\TaskDtos\\CreateTaskDto.cs",
+              "ToolTip": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Application\\DTOs\\TaskDtos\\CreateTaskDto.cs",
+              "RelativeToolTip": "server\\Application\\DTOs\\TaskDtos\\CreateTaskDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-02T19:06:05.974Z"
+              "WhenOpened": "2025-05-02T19:06:05.974Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 13,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Presentation\\Program.cs",
               "RelativeDocumentMoniker": "server\\Presentation\\Program.cs",
@@ -222,7 +290,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 16,
               "Title": "TaskEntity.cs",
               "DocumentMoniker": "C:\\Users\\Danylo\\Desktop\\Projects\\TodoApp\\server\\Infrastructure\\Data\\Entities\\TaskEntity.cs",
               "RelativeDocumentMoniker": "server\\Infrastructure\\Data\\Entities\\TaskEntity.cs",
