@@ -1,5 +1,7 @@
-﻿using Application.DTOs;
+﻿using Application.Common;
+using Application.DTOs.TaskDtos;
 using AutoMapper;
+using Core.Domain;
 using Core.Domain.Entities;
 using Core.Interfaces;
 
@@ -26,10 +28,18 @@ namespace Application.Services
 
             return _mapper.Map<TaskDto>(item);
         }
-        public async Task<IEnumerable<TaskDto>> GetAllTasksAsync()
+        public async Task<PaginatedResult<TaskDto>> GetAllTasksAsync(PaginationParams paginationParams)
         {
-            var items = await _taskRepository.GetAllAsync();
-            return _mapper.Map<IEnumerable<TaskDto>>(items);
+            var (items, totalCount) = await _taskRepository.GetAllAsync(paginationParams);
+
+            var paginatedResult = new PaginatedResult<TaskDto>(
+                _mapper.Map<IEnumerable<TaskDto>>(items),
+                totalCount,
+                paginationParams.PageSize,
+                paginationParams.PageNumber
+                );
+
+            return paginatedResult;
         }
         public async Task<TaskDto> AddTaskAsync(CreateTaskDto task)
         {
