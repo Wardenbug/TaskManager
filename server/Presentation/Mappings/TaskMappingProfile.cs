@@ -1,4 +1,5 @@
 ﻿using Application.DTOs.TaskDtos;
+using Application.DTOs.User;
 using AutoMapper;
 using Core.Domain.Entities;
 using Infrastructure.Data.Entities;
@@ -17,6 +18,10 @@ namespace Presentation.Mappings
             CreateMap<TaskItem, TaskDto>();
             CreateMap<UpdateTaskRequest, UpdateTaskDto>();
             CreateMap<UpdateTaskDto, TaskItem>();
+            CreateMap<RegisterUserDto, User>();
+            CreateMap<User, UserDto>();
+            CreateMap<User, ApplicationUser>();
+            CreateMap<RegisterDto, RegisterUserDto>();
         }
     }
 }
