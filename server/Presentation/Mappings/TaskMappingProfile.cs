@@ -21,7 +21,9 @@ namespace Presentation.Mappings
             CreateMap<RegisterUserDto, User>();
             CreateMap<User, UserDto>();
             CreateMap<User, ApplicationUser>();
+            CreateMap<ApplicationUser, User>();
             CreateMap<RegisterDto, RegisterUserDto>();
+            CreateMap<LoginRequestDto, LoginDto>();
         }
     }
 }

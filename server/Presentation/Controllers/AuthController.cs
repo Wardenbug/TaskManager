@@ -3,8 +3,6 @@ using Application.Interfaces;
 using Application.Services;
 using AutoMapper;
 using Core.Domain.Entities;
-using Infrastructure.Data.Entities;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.DTOs;
 
@@ -23,16 +21,16 @@ public class AuthController(ITokenService _tokenService, UserService userService
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginDto loginData)
+    public async Task<IActionResult> Login([FromBody] LoginRequestDto loginData)
     {
-        var token = _tokenService.CreateToken(new User
-        {
-            Id = Guid.NewGuid(),
-            Email = "my_email",
-            UserName = "my_username"
-        });
+        var response = await userService.Login(mapper.Map<LoginDto>(loginData));
 
-        return Ok(token);
+        if (response is null)
+        {
+            return BadRequest(response);
+        }
+
+        return Ok(response);
     }
 }
 

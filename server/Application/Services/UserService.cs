@@ -1,11 +1,12 @@
 ﻿using Application.DTOs.User;
+using Application.Interfaces;
 using AutoMapper;
 using Core.Domain.Entities;
 using Core.Interfaces;
 
 namespace Application.Services;
 
-public class UserService(IUserRepository _userRepository, IMapper mapper)
+public class UserService(IUserRepository _userRepository, IMapper mapper, ITokenService tokenService)
 {
     public async Task<UserDto> Register(RegisterUserDto registerUser)
     {
@@ -17,6 +18,28 @@ public class UserService(IUserRepository _userRepository, IMapper mapper)
         var newUser = await _userRepository.RegisterAsync(mapper.Map<User>(registerUser), registerUser.Password);
 
         return mapper.Map<UserDto>(newUser);
+    }
+
+    public async Task<AuthResponseDto> Login(LoginDto loginDto)
+    {
+        if (!await _userRepository.ExistsByEmail(loginDto.Email))
+        {
+            throw new Exception("Invalid email or password");
+        }
+
+        var user = await _userRepository.FindByEmailAsync(loginDto.Email);
+
+        if (!await _userRepository.CheckPasswordAsync(user.Id, loginDto.Password))
+        {
+            throw new Exception("Invalid email or password");
+        }
+
+        var token = tokenService.CreateToken(user);
+        var refreshToken = tokenService.CreateRefreshToken();
+
+        await _userRepository.UpdateRefreshTokenAsync(user.Id, refreshToken, DateTime.UtcNow.AddDays(7));
+
+        return new AuthResponseDto { Token = token, RefreshToken = refreshToken, ExpiresAt = DateTime.UtcNow.AddDays(7) };
     }
 }
 
