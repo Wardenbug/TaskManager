@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Core.Domain.Entities;
+using Core.Exceptions;
 using Core.Interfaces;
 using Infrastructure.Data.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -40,7 +41,7 @@ public class UserRepository(UserManager<ApplicationUser> userManager, IMapper ma
 
         if (!result.Succeeded)
         {
-            throw new Exception($"Failed to create user: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+            throw new ValidationException($"Failed to create user: {string.Join(", ", result.Errors.Select(e => e.Description))}");
         }
 
         return user;

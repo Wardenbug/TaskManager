@@ -1,8 +1,6 @@
 ﻿using Application.DTOs.User;
-using Application.Interfaces;
 using Application.Services;
 using AutoMapper;
-using Core.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.DTOs;
 
@@ -10,7 +8,7 @@ namespace Presentation.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthController(ITokenService _tokenService, UserService userService, IMapper mapper) : ControllerBase
+public class AuthController(UserService userService, IMapper mapper) : ControllerBase
 {
 
     [HttpPost("register")]
