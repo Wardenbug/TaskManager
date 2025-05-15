@@ -1,6 +1,7 @@
-﻿using Application.DTOs;
+﻿using Application.DTOs.TaskDtos;
 using Application.Services;
 using AutoMapper;
+using Core.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.DTOs;
 
@@ -20,10 +21,10 @@ namespace Presentation.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] PaginationParams paginationParams)
+
         {
-            var tasks = await _taskService.GetAllTasksAsync();
-            return Ok(tasks);
+            return Ok(await _taskService.GetAllTasksAsync(paginationParams));
         }
 
         [HttpDelete("{id}")]
