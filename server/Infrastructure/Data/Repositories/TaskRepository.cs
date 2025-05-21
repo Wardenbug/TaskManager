@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using Core.Domain;
 using Core.Domain.Entities;
+using Core.Exceptions;
 using Core.Interfaces;
 using Infrastructure.Data.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -62,7 +63,7 @@ namespace Infrastructure.Data.Repositories
 
             if (item is null)
             {
-                throw new KeyNotFoundException($"Task with id {id} not found");
+                throw new NotFoundException($"Task with id {id} not found");
             }
             return item;
         }

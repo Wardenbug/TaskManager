@@ -45,6 +45,7 @@ namespace Application.Services
         {
             var newTask = _mapper.Map<TaskItem>(task);
             newTask.Id = Guid.NewGuid();
+            newTask.UserId = Guid.Parse(task.UserId);
 
             await _taskRepository.AddAsync(newTask);
             return _mapper.Map<TaskDto>(newTask);

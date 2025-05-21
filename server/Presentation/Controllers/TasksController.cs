@@ -2,13 +2,16 @@
 using Application.Services;
 using AutoMapper;
 using Core.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.DTOs;
+using System.Security.Claims;
 
 namespace Presentation.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class TasksController : ControllerBase
     {
         private readonly TaskService _taskService;
@@ -22,7 +25,6 @@ namespace Presentation.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] PaginationParams paginationParams)
-
         {
             return Ok(await _taskService.GetAllTasksAsync(paginationParams));
         }
@@ -48,7 +50,10 @@ namespace Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateTaskRequest request)
         {
-            var task = await _taskService.AddTaskAsync(_mapper.Map<CreateTaskDto>(request));
+            var userId = User.FindAll(ClaimTypes.NameIdentifier).FirstOrDefault()?.Value;
+            var createTaskDto = _mapper.Map<CreateTaskDto>(request);
+            createTaskDto.UserId = userId;
+            var task = await _taskService.AddTaskAsync(createTaskDto);
             return CreatedAtAction(nameof(GetById), new { id = task.Id }, task);
         }
 
