@@ -50,9 +50,7 @@ namespace Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateTaskRequest request)
         {
-            var userId = User.FindAll(ClaimTypes.NameIdentifier).FirstOrDefault()?.Value;
             var createTaskDto = _mapper.Map<CreateTaskDto>(request);
-            createTaskDto.UserId = userId;
             var task = await _taskService.AddTaskAsync(createTaskDto);
             return CreatedAtAction(nameof(GetById), new { id = task.Id }, task);
         }

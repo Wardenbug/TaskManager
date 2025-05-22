@@ -37,11 +37,12 @@ namespace Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<(IEnumerable<TaskItem>, int)> GetAllAsync(PaginationParams paginationParams)
+        public async Task<(IEnumerable<TaskItem>, int)> GetAllAsync(PaginationParams paginationParams, string userId)
         {
 
             var query = _context.Tasks
                 .AsNoTracking()
+                .Where(task => task.UserId.ToString() == userId)
                 .Where(task => task.Title.Contains(paginationParams.SearchTerm));
 
             var totalCount = await query.CountAsync();
