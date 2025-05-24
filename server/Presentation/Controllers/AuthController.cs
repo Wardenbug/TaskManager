@@ -8,27 +8,51 @@ namespace Presentation.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthController(UserService userService, IMapper mapper) : ControllerBase
+public class AuthController(UserService userService, IMapper mapper, ILogger<AuthController> logger) : ControllerBase
 {
 
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterDto registerData)
     {
-        var user = await userService.Register(mapper.Map<RegisterUserDto>(registerData));
-        return Ok(user);
+        logger.LogInformation("Registering new user with username: {UserName}", registerData.UserName);
+
+        try
+        {
+            var user = await userService.Register(mapper.Map<RegisterUserDto>(registerData));
+            logger.LogInformation("Sucessfully registered a new user with username {UserName}", user.UserName);
+
+            return Ok(user);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error during user registration for username: {UserName}", registerData.UserName);
+            throw;
+        }
+
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequestDto loginData)
     {
-        var response = await userService.Login(mapper.Map<LoginDto>(loginData));
-
-        if (response is null)
+        logger.LogInformation("User attempting to log in with email: {Email}", loginData.Email);
+        try
         {
-            return BadRequest(response);
-        }
+            var response = await userService.Login(mapper.Map<LoginDto>(loginData));
 
-        return Ok(response);
+            if (response is null)
+            {
+                logger.LogWarning("Login failed for user with email: {Email}", loginData.Email);
+                return BadRequest(response);
+            }
+
+            logger.LogInformation("Successfully logged in user with email: {Email}", loginData.Email);
+            return Ok(response);
+        } catch (Exception ex)
+        {
+            logger.LogError(ex, "Error during user login for email: {Email}", loginData.Email);
+            throw;
+        }
+       
     }
 }
 

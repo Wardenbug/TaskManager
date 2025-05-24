@@ -12,109 +12,101 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Presentation.Middlewares;
 using System.Text;
+using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateLogger();
 
-var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-var key = Encoding.UTF8.GetBytes(jwtSettings["Secret"]);
-
-builder.Services.AddControllers();
-
-builder.Services.Configure<ApiBehaviorOptions>(options =>
+try
 {
-    options.InvalidModelStateResponseFactory = context =>
+    Log.Information("Starting web application");
+    var builder = WebApplication.CreateBuilder(args);
+
+    var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+    var key = Encoding.UTF8.GetBytes(jwtSettings["Secret"]);
+
+    builder.Services.AddControllers();
+
+    builder.Services.Configure<ApiBehaviorOptions>(options =>
     {
-        var errors = context.ModelState
-            .Where(x => x.Value.Errors.Count > 0)
-            .ToDictionary(
-                kvp => kvp.Key,
-                kvp => kvp.Value.Errors.Select(e => e.ErrorMessage)
-            );
-
-        return new BadRequestObjectResult(new
+        options.InvalidModelStateResponseFactory = context =>
         {
-            Message = "Validation Failed",
-            Errors = errors
-        });
-    };
-});
+            var errors = context.ModelState
+                .Where(x => x.Value.Errors.Count > 0)
+                .ToDictionary(
+                    kvp => kvp.Key,
+                    kvp => kvp.Value.Errors.Select(e => e.ErrorMessage)
+                );
 
-builder.Services.AddAuthentication(opt =>
-{
-    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
+            return new BadRequestObjectResult(new
+            {
+                Message = "Validation Failed",
+                Errors = errors
+            });
+        };
+    });
+
+    builder.Services.AddAuthentication(opt =>
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtSettings["Issuer"],
-        ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        ClockSkew = TimeSpan.Zero
-    };
-
-    options.Events = new JwtBearerEvents
+        opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    }).AddJwtBearer(options =>
     {
-        OnAuthenticationFailed = context =>
+        options.TokenValidationParameters = new TokenValidationParameters
         {
-            Console.WriteLine("Authentication failed: " + context.Exception.Message);
-            return Task.CompletedTask;
-        },
-        OnMessageReceived = context =>
-        {
-            Console.WriteLine("Message received: " + context.Token);
-            return Task.CompletedTask;
-        },
-        OnTokenValidated = context =>
-        {
-            Console.WriteLine("Token validated successfully");
-            return Task.CompletedTask;
-        }
-    };
-});
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtSettings["Issuer"],
+            ValidAudience = jwtSettings["Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+    builder.Services.AddSerilog();
 
-builder.Services.AddScoped<ITaskRepository, TaskRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<TaskService>();
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<ICurrentUserProvider, CurrentUserProdiver>();
-builder.Services.AddHttpContextAccessor();
+    builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+    builder.Services.AddScoped<IUserRepository, UserRepository>();
+    builder.Services.AddScoped<TaskService>();
+    builder.Services.AddScoped<UserService>();
+    builder.Services.AddScoped<ITokenService, TokenService>();
+    builder.Services.AddScoped<ICurrentUserProvider, CurrentUserProdiver>();
+    builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddAutoMapper(typeof(Presentation.AssemblyReference).Assembly);
+    builder.Services.AddAutoMapper(typeof(Presentation.AssemblyReference).Assembly);
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=tasks.db"));
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseSqlite("Data Source=tasks.db"));
 
-builder.Services.AddIdentityCore<ApplicationUser>(options => { })
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
+    builder.Services.AddIdentityCore<ApplicationUser>(options => { })
+        .AddRoles<IdentityRole>()
+        .AddEntityFrameworkStores<AppDbContext>()
+        .AddDefaultTokenProviders();
 
-var app = builder.Build();
+    var app = builder.Build();
 
-// Logging
-app.Use(async (context, next) =>
+    app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+    app.UseCors();
+
+    app.UseAuthentication();
+    app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.MapGet("/", () => "Hello World!");
+
+    app.Run();
+}
+catch (Exception ex)
 {
-    Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
-    Console.WriteLine($"Headers: {string.Join(", ", context.Request.Headers.Select(h => $"{h.Key}: {h.Value}"))}");
-    await next();
-});
-
-app.UseMiddleware<ExceptionHandlingMiddleware>();
-
-app.UseCors();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.MapGet("/", () => "Hello World!");
-
-app.Run();
+    Log.Fatal(ex, "Application start failed");
+    throw;
+}
+finally
+{
+    Log.CloseAndFlush();
+}
