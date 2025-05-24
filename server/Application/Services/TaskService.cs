@@ -156,13 +156,13 @@ namespace Application.Services
 
             if (item is null)
             {
-                _logger.LogError("Task with id {TaskId} not found for user {UserId}", id, userId);
+                _logger.LogWarning("Task with id {TaskId} not found for user {UserId}", id, userId);
                 throw new NotFoundException($"Task with id {id} not found.");
             }
 
             if (item.UserId.ToString() != userId)
             {
-                _logger.LogError("Task with id {TaskId} does not belong to the current user {UserId}", id, userId);
+                _logger.LogWarning("Task with id {TaskId} does not belong to the current user {UserId}", id, userId);
                 throw new NotFoundException($"Task with id {id} does not belong to the current user.");
             }
 

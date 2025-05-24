@@ -17,7 +17,7 @@ public class UserService(IUserRepository _userRepository, IMapper mapper, IToken
         {
             if (await _userRepository.ExistsByEmail(registerUser.Email))
             {
-                logger.LogError("Email {Email} is already in use", registerUser.Email);
+                logger.LogWarning("Email {Email} is already in use", registerUser.Email);
                 throw new ValidationException("Email already in use.");
             }
 
@@ -41,7 +41,7 @@ public class UserService(IUserRepository _userRepository, IMapper mapper, IToken
         {
             if (!await _userRepository.ExistsByEmail(loginDto.Email))
             {
-                logger.LogError("Invalid login attempt for email {Email}: user does not exist", loginDto.Email);
+                logger.LogWarning("Invalid login attempt for email {Email}: user does not exist", loginDto.Email);
                 throw new ValidationException("Invalid email or password");
             }
 
@@ -49,7 +49,7 @@ public class UserService(IUserRepository _userRepository, IMapper mapper, IToken
 
             if (!await _userRepository.CheckPasswordAsync(user.Id, loginDto.Password))
             {
-                logger.LogError("Invalid login attempt for email {Email}: incorrect password", loginDto.Email);
+                logger.LogWarning("Invalid login attempt for email {Email}: incorrect password", loginDto.Email);
                 throw new ValidationException("Invalid email or password");
             }
 
