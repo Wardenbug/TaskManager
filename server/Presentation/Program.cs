@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using Presentation.Middlewares;
 using System.Text;
 using Serilog;
+using System.Threading.RateLimiting;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -25,6 +26,19 @@ try
 
     var jwtSettings = builder.Configuration.GetSection("JwtSettings");
     var key = Encoding.UTF8.GetBytes(jwtSettings["Secret"]);
+    builder.Services.AddRateLimiter(options =>
+    {
+        options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
+            RateLimitPartition.GetFixedWindowLimiter(
+                partitionKey: httpContext.User.Identity?.Name ?? httpContext.Request.Headers.Host.ToString(),
+                factory: partition => new FixedWindowRateLimiterOptions
+                {
+                    AutoReplenishment = true,
+                    PermitLimit = 10,
+                    QueueLimit = 0,
+                    Window = TimeSpan.FromMinutes(1)
+                }));
+    });
 
     builder.Services.AddControllers();
 
@@ -88,6 +102,7 @@ try
 
     var app = builder.Build();
 
+    app.UseRateLimiter();
     app.UseMiddleware<ExceptionHandlingMiddleware>();
 
     app.UseCors();
