@@ -14,7 +14,8 @@ namespace Presentation.Mappings
             CreateMap<CreateTaskRequest, CreateTaskDto>();
             CreateMap<CreateTaskDto, TaskItem>();
             CreateMap<TaskItem, TaskEntity>();
-            CreateMap<TaskEntity, TaskItem>();
+            CreateMap<TaskEntity, TaskItem>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => Guid.Parse(src.UserId)));
             CreateMap<TaskItem, TaskDto>();
             CreateMap<UpdateTaskRequest, UpdateTaskDto>();
             CreateMap<UpdateTaskDto, TaskItem>();

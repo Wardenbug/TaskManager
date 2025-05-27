@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Core.Domain.Entities;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -9,7 +10,7 @@ using System.Text;
 
 namespace Infrastructure.Services
 {
-    public class TokenService(IConfiguration configuration) : ITokenService
+    public class TokenService(IConfiguration configuration, ILogger<TokenService> logger) : ITokenService
     {
         public string CreateRefreshToken()
         {
@@ -39,30 +40,38 @@ namespace Infrastructure.Services
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-
         public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
         {
-            var tokenValidationParameters = new TokenValidationParameters
+            try
             {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = false, // Не проверяем время жизни токена
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = configuration["JwtSettings:Issuer"],
-                ValidAudience = configuration["JwtSettings:Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Secret"]))
-            };
+                var tokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = false,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = configuration["JwtSettings:Issuer"],
+                    ValidAudience = configuration["JwtSettings:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Secret"]))
+                };
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var securityToken);
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var securityToken);
 
-            if (securityToken is not JwtSecurityToken jwtSecurityToken ||
-                !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
-            {
-                throw new SecurityTokenException("Invalid token");
+                if (securityToken is not JwtSecurityToken jwtSecurityToken ||
+                    !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    logger.LogError("Rejected token: unsupported algorithm or malformed JWT.");
+                    throw new SecurityTokenException("Invalid token");
+                }
+
+                return principal;
             }
-
-            return principal;
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Failed to extract principal from expired token");
+                throw;
+            }
         }
     }
 }
