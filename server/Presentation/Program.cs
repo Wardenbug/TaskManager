@@ -14,6 +14,7 @@ using Presentation.Middlewares;
 using System.Text;
 using Serilog;
 using System.Threading.RateLimiting;
+using Presentation.DTOs;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -26,18 +27,47 @@ try
 
     var jwtSettings = builder.Configuration.GetSection("JwtSettings");
     var key = Encoding.UTF8.GetBytes(jwtSettings["Secret"]);
+
     builder.Services.AddRateLimiter(options =>
     {
         options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
-            RateLimitPartition.GetFixedWindowLimiter(
-                partitionKey: httpContext.User.Identity?.Name ?? httpContext.Request.Headers.Host.ToString(),
+        {
+            if (httpContext.User.Identity?.IsAuthenticated == true)
+            {
+                return RateLimitPartition.GetFixedWindowLimiter(
+                partitionKey: httpContext.User.Identity.Name ?? "anonymous",
                 factory: partition => new FixedWindowRateLimiterOptions
                 {
                     AutoReplenishment = true,
-                    PermitLimit = 10,
-                    QueueLimit = 0,
+                    PermitLimit = 100,
+                    QueueLimit = 2,
                     Window = TimeSpan.FromMinutes(1)
-                }));
+                });
+            }
+
+            return RateLimitPartition.GetFixedWindowLimiter(
+               partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+               factory: partition => new FixedWindowRateLimiterOptions
+               {
+                   AutoReplenishment = true,
+                   PermitLimit = 10,
+                   QueueLimit = 0,
+                   Window = TimeSpan.FromMinutes(1)
+               });
+        });
+
+        options.OnRejected = async (context, token) =>
+        {
+            context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+            context.HttpContext.Response.ContentType = "application/json";
+
+            var response = new ErrorResponseDto(
+                "Too many requests. Please try again later.",
+                "RATE_LIMIT_EXCEEDED"
+            );
+
+            await context.HttpContext.Response.WriteAsJsonAsync(response, token);
+        };
     });
 
     builder.Services.AddControllers();
