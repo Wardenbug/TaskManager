@@ -10,7 +10,7 @@ namespace Infrastructure.Data.Repositories;
 
 public class UserRepository(UserManager<ApplicationUser> userManager, IMapper mapper, ILogger<UserRepository> logger) : IUserRepository
 {
-    public async Task<bool> CheckPasswordAsync(Guid userId, string password)
+    public async Task<bool> CheckPasswordAsync(Guid userId, string password, CancellationToken cancellationToken)
     {
         logger.LogInformation("Checking password for user with ID {UserId}", userId);
         try
@@ -29,7 +29,7 @@ public class UserRepository(UserManager<ApplicationUser> userManager, IMapper ma
 
     }
 
-    public async Task<bool> ExistsByEmail(string email)
+    public async Task<bool> ExistsByEmail(string email, CancellationToken cancellationToken)
     {
         logger.LogDebug("Checking if user exists with email {Email}", email);
         try
@@ -48,7 +48,7 @@ public class UserRepository(UserManager<ApplicationUser> userManager, IMapper ma
 
     }
 
-    public async Task<User> FindByEmailAsync(string email)
+    public async Task<User> FindByEmailAsync(string email, CancellationToken cancellationToken)
     {
         logger.LogDebug("Finding user by email {Email}", email);
         try
@@ -65,12 +65,12 @@ public class UserRepository(UserManager<ApplicationUser> userManager, IMapper ma
         }
     }
 
-    public Task<User> FindUserByIdAsync(Guid userId)
+    public Task<User> FindUserByIdAsync(Guid userId, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<User> RegisterAsync(User user, string password)
+    public async Task<User> RegisterAsync(User user, string password, CancellationToken cancellationToken)
     {
         logger.LogInformation("Registering user with email {Email}", user.Email);
         try
@@ -94,7 +94,7 @@ public class UserRepository(UserManager<ApplicationUser> userManager, IMapper ma
 
     }
 
-    public async Task UpdateRefreshTokenAsync(Guid userId, string refreshToken, DateTime expiryTime)
+    public async Task UpdateRefreshTokenAsync(Guid userId, string refreshToken, DateTime expiryTime, CancellationToken cancellationToken)
     {
         logger.LogInformation("Updating refresh token for user with ID {UserId}", userId);
         try

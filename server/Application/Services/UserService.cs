@@ -10,18 +10,18 @@ namespace Application.Services;
 
 public class UserService(IUserRepository _userRepository, IMapper mapper, ITokenService tokenService, ILogger<UserService> logger)
 {
-    public async Task<UserDto> Register(RegisterUserDto registerUser)
+    public async Task<UserDto> Register(RegisterUserDto registerUser, CancellationToken cancellationToken)
     {
         logger.LogInformation("Registering user with email {Email}", registerUser.Email);
         try
         {
-            if (await _userRepository.ExistsByEmail(registerUser.Email))
+            if (await _userRepository.ExistsByEmail(registerUser.Email, cancellationToken))
             {
                 logger.LogWarning("Email {Email} is already in use", registerUser.Email);
                 throw new ValidationException("Email already in use.");
             }
 
-            var newUser = await _userRepository.RegisterAsync(mapper.Map<User>(registerUser), registerUser.Password);
+            var newUser = await _userRepository.RegisterAsync(mapper.Map<User>(registerUser), registerUser.Password, cancellationToken);
             logger.LogInformation("Successfully registered user with email {Email}", registerUser.Email);
 
             return mapper.Map<UserDto>(newUser);
@@ -33,21 +33,21 @@ public class UserService(IUserRepository _userRepository, IMapper mapper, IToken
         }
     }
 
-    public async Task<AuthResponseDto> Login(LoginDto loginDto)
+    public async Task<AuthResponseDto> Login(LoginDto loginDto, CancellationToken cancellationToken)
     {
         logger.LogInformation("Attempting to log in user with email {Email}", loginDto.Email);
 
         try
         {
-            if (!await _userRepository.ExistsByEmail(loginDto.Email))
+            if (!await _userRepository.ExistsByEmail(loginDto.Email, cancellationToken))
             {
                 logger.LogWarning("Invalid login attempt for email {Email}: user does not exist", loginDto.Email);
                 throw new ValidationException("Invalid email or password");
             }
 
-            var user = await _userRepository.FindByEmailAsync(loginDto.Email);
+            var user = await _userRepository.FindByEmailAsync(loginDto.Email, cancellationToken);
 
-            if (!await _userRepository.CheckPasswordAsync(user.Id, loginDto.Password))
+            if (!await _userRepository.CheckPasswordAsync(user.Id, loginDto.Password, cancellationToken))
             {
                 logger.LogWarning("Invalid login attempt for email {Email}: incorrect password", loginDto.Email);
                 throw new ValidationException("Invalid email or password");
@@ -56,7 +56,7 @@ public class UserService(IUserRepository _userRepository, IMapper mapper, IToken
             var token = tokenService.CreateToken(user);
             var refreshToken = tokenService.CreateRefreshToken();
 
-            await _userRepository.UpdateRefreshTokenAsync(user.Id, refreshToken, DateTime.UtcNow.AddDays(7));
+            await _userRepository.UpdateRefreshTokenAsync(user.Id, refreshToken, DateTime.UtcNow.AddDays(7), cancellationToken);
 
             logger.LogInformation("Successfully logged in user {UserId} with email {Email}", user.Id, loginDto.Email);
 

@@ -12,13 +12,13 @@ public class AuthController(UserService userService, IMapper mapper, ILogger<Aut
 {
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterDto registerData)
+    public async Task<IActionResult> Register([FromBody] RegisterDto registerData, CancellationToken cancellationToken)
     {
         logger.LogInformation("Registering new user with username: {UserName}", registerData.UserName);
 
         try
         {
-            var user = await userService.Register(mapper.Map<RegisterUserDto>(registerData));
+            var user = await userService.Register(mapper.Map<RegisterUserDto>(registerData), cancellationToken);
             logger.LogInformation("Sucessfully registered a new user with username {UserName}", user.UserName);
 
             return Ok(user);
@@ -32,12 +32,12 @@ public class AuthController(UserService userService, IMapper mapper, ILogger<Aut
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginRequestDto loginData)
+    public async Task<IActionResult> Login([FromBody] LoginRequestDto loginData, CancellationToken cancellationToken)
     {
         logger.LogInformation("User attempting to log in with email: {Email}", loginData.Email);
         try
         {
-            var response = await userService.Login(mapper.Map<LoginDto>(loginData));
+            var response = await userService.Login(mapper.Map<LoginDto>(loginData), cancellationToken);
 
             if (response is null)
             {

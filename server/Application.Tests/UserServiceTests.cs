@@ -43,13 +43,13 @@ public class UserServiceTests
         var user = new User { Id = Guid.NewGuid(), Email = "test@example.com", UserName = "TestUser" };
         var userDto = new UserDto { Id = user.Id, UserName = user.UserName };
 
-        _mockUserRepository.Setup(r => r.ExistsByEmail(registerUserDto.Email)).ReturnsAsync(false);
+        _mockUserRepository.Setup(r => r.ExistsByEmail(registerUserDto.Email, It.IsAny<CancellationToken>())).ReturnsAsync(false);
         _mockMapper.Setup(m => m.Map<User>(registerUserDto)).Returns(user);
-        _mockUserRepository.Setup(r => r.RegisterAsync(It.IsAny<User>(), registerUserDto.Password)).ReturnsAsync(user);
+        _mockUserRepository.Setup(r => r.RegisterAsync(It.IsAny<User>(), registerUserDto.Password, It.IsAny<CancellationToken>())).ReturnsAsync(user);
         _mockMapper.Setup(m => m.Map<UserDto>(user)).Returns(userDto);
 
         // Act
-        var result = await _userService.Register(registerUserDto);
+        var result = await _userService.Register(registerUserDto, CancellationToken.None);
 
         // Assert
         Assert.NotNull(result);
@@ -62,10 +62,10 @@ public class UserServiceTests
         // Arrange
         var registerUserDto = new RegisterUserDto { Email = "existing@example.com", UserName = "ExistingUser", Password = "Password123!" };
 
-        _mockUserRepository.Setup(r => r.ExistsByEmail(registerUserDto.Email)).ReturnsAsync(true);
+        _mockUserRepository.Setup(r => r.ExistsByEmail(registerUserDto.Email, It.IsAny<CancellationToken>())).ReturnsAsync(true);
 
         // Act & Assert
-        await Assert.ThrowsAsync<ValidationException>(() => _userService.Register(registerUserDto));
+        await Assert.ThrowsAsync<ValidationException>(() => _userService.Register(registerUserDto, CancellationToken.None));
     }
 
     [Fact]
@@ -75,12 +75,12 @@ public class UserServiceTests
         var registerUserDto = new RegisterUserDto { Email = "test@example.com", UserName = "TestUser", Password = "Password123!" };
         var expectedException = new InvalidOperationException("Database error");
 
-        _mockUserRepository.Setup(r => r.ExistsByEmail(registerUserDto.Email)).ReturnsAsync(false);
+        _mockUserRepository.Setup(r => r.ExistsByEmail(registerUserDto.Email, It.IsAny<CancellationToken>())).ReturnsAsync(false);
         _mockMapper.Setup(m => m.Map<User>(registerUserDto)).Returns(new User());
-        _mockUserRepository.Setup(r => r.RegisterAsync(It.IsAny<User>(), registerUserDto.Password)).ThrowsAsync(expectedException);
+        _mockUserRepository.Setup(r => r.RegisterAsync(It.IsAny<User>(), registerUserDto.Password, It.IsAny<CancellationToken>())).ThrowsAsync(expectedException);
 
         // Act & Assert
-        var caughtException = await Assert.ThrowsAsync<InvalidOperationException>(() => _userService.Register(registerUserDto));
+        var caughtException = await Assert.ThrowsAsync<InvalidOperationException>(() => _userService.Register(registerUserDto, CancellationToken.None));
         Assert.Equal(expectedException, caughtException);
     }
 
@@ -95,15 +95,15 @@ public class UserServiceTests
         var token = "some_jwt_token";
         var refreshToken = "some_refresh_token";
 
-        _mockUserRepository.Setup(r => r.ExistsByEmail(loginDto.Email)).ReturnsAsync(true);
-        _mockUserRepository.Setup(r => r.FindByEmailAsync(loginDto.Email)).ReturnsAsync(user);
-        _mockUserRepository.Setup(r => r.CheckPasswordAsync(user.Id, loginDto.Password)).ReturnsAsync(true);
+        _mockUserRepository.Setup(r => r.ExistsByEmail(loginDto.Email, It.IsAny<CancellationToken>())).ReturnsAsync(true);
+        _mockUserRepository.Setup(r => r.FindByEmailAsync(loginDto.Email, It.IsAny<CancellationToken>())).ReturnsAsync(user);
+        _mockUserRepository.Setup(r => r.CheckPasswordAsync(user.Id, loginDto.Password, It.IsAny<CancellationToken>())).ReturnsAsync(true);
         _mockTokenService.Setup(s => s.CreateToken(user)).Returns(token);
         _mockTokenService.Setup(s => s.CreateRefreshToken()).Returns(refreshToken);
-        _mockUserRepository.Setup(r => r.UpdateRefreshTokenAsync(user.Id, refreshToken, It.IsAny<DateTime>())).Returns(Task.CompletedTask);
+        _mockUserRepository.Setup(r => r.UpdateRefreshTokenAsync(user.Id, refreshToken, It.IsAny<DateTime>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
         // Act
-        var result = await _userService.Login(loginDto);
+        var result = await _userService.Login(loginDto, CancellationToken.None);
 
         // Assert
         Assert.NotNull(result);
@@ -118,10 +118,10 @@ public class UserServiceTests
         // Arrange
         var loginDto = new LoginDto { Email = "nonexistent@example.com", Password = "Password123!" };
 
-        _mockUserRepository.Setup(r => r.ExistsByEmail(loginDto.Email)).ReturnsAsync(false);
+        _mockUserRepository.Setup(r => r.ExistsByEmail(loginDto.Email, It.IsAny<CancellationToken>())).ReturnsAsync(false);
 
         // Act & Assert
-        await Assert.ThrowsAsync<ValidationException>(() => _userService.Login(loginDto));
+        await Assert.ThrowsAsync<ValidationException>(() => _userService.Login(loginDto, CancellationToken.None));
     }
 
     [Fact]
@@ -131,12 +131,12 @@ public class UserServiceTests
         var loginDto = new LoginDto { Email = "test@example.com", Password = "WrongPassword!" };
         var user = new User { Id = Guid.NewGuid(), Email = "test@example.com" };
 
-        _mockUserRepository.Setup(r => r.ExistsByEmail(loginDto.Email)).ReturnsAsync(true);
-        _mockUserRepository.Setup(r => r.FindByEmailAsync(loginDto.Email)).ReturnsAsync(user);
-        _mockUserRepository.Setup(r => r.CheckPasswordAsync(user.Id, loginDto.Password)).ReturnsAsync(false);
+        _mockUserRepository.Setup(r => r.ExistsByEmail(loginDto.Email, It.IsAny<CancellationToken>())).ReturnsAsync(true);
+        _mockUserRepository.Setup(r => r.FindByEmailAsync(loginDto.Email, It.IsAny<CancellationToken>())).ReturnsAsync(user);
+        _mockUserRepository.Setup(r => r.CheckPasswordAsync(user.Id, loginDto.Password, It.IsAny<CancellationToken>())).ReturnsAsync(false);
 
         // Act & Assert
-        await Assert.ThrowsAsync<ValidationException>(() => _userService.Login(loginDto));
+        await Assert.ThrowsAsync<ValidationException>(() => _userService.Login(loginDto, CancellationToken.None));
     }
 
     [Fact]
@@ -146,10 +146,10 @@ public class UserServiceTests
         var loginDto = new LoginDto { Email = "test@example.com", Password = "Password123!" };
         var expectedException = new InvalidOperationException("Database error during find by email");
 
-        _mockUserRepository.Setup(r => r.ExistsByEmail(loginDto.Email)).ReturnsAsync(true);
-        _mockUserRepository.Setup(r => r.FindByEmailAsync(loginDto.Email)).ThrowsAsync(expectedException);
+        _mockUserRepository.Setup(r => r.ExistsByEmail(loginDto.Email, It.IsAny<CancellationToken>())).ReturnsAsync(true);
+        _mockUserRepository.Setup(r => r.FindByEmailAsync(loginDto.Email, It.IsAny<CancellationToken>())).ThrowsAsync(expectedException);
 
         // Act & Assert
-        await Assert.ThrowsAsync<InvalidOperationException>(() => _userService.Login(loginDto));
+        await Assert.ThrowsAsync<InvalidOperationException>(() => _userService.Login(loginDto, CancellationToken.None));
     }
 }

@@ -25,12 +25,12 @@ namespace Presentation.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] PaginationParams paginationParams)
+        public async Task<IActionResult> GetAll([FromQuery] PaginationParams paginationParams, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Fetching all tasks with pagination parameters: {@PaginationParams}", paginationParams);
             try
             {
-                var tasks = await _taskService.GetAllTasksAsync(paginationParams);
+                var tasks = await _taskService.GetAllTasksAsync(paginationParams, cancellationToken);
 
                 _logger.LogInformation("Successfully retrieved {TaskCount} tasks.", tasks.Items.Count());
                 return Ok(tasks);
@@ -43,12 +43,12 @@ namespace Presentation.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Attempting to delete task with ID {TaskId}", id);
             try
             {
-                await _taskService.DeleteTaskAsync(id);
+                await _taskService.DeleteTaskAsync(id, cancellationToken);
                 _logger.LogInformation("Successfully deleted task with ID {TaskId}", id);
                 return NoContent();
             }
@@ -60,12 +60,12 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(Guid id)
+        public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Fetching task with ID {TaskId}", id);
             try
             {
-                var task = await _taskService.GetTaskByIdAsync(id);
+                var task = await _taskService.GetTaskByIdAsync(id, cancellationToken);
                 if (task is null)
                 {
                     _logger.LogWarning("Task with ID {TaskId} not found", id);
@@ -83,13 +83,13 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateTaskRequest request)
+        public async Task<IActionResult> Create([FromBody] CreateTaskRequest request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Creating a new task with title: {TaskTitle}", request.Title);
             try
             {
                 var createTaskDto = _mapper.Map<CreateTaskDto>(request);
-                var task = await _taskService.AddTaskAsync(createTaskDto);
+                var task = await _taskService.AddTaskAsync(createTaskDto, cancellationToken);
                 _logger.LogInformation("Successfully created task with ID {TaskId}", task.Id);
                 return CreatedAtAction(nameof(GetById), new { id = task.Id }, task);
             }
@@ -102,12 +102,12 @@ namespace Presentation.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateTaskRequest request)
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateTaskRequest request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Updating task with id: {Id}", id);
             try
             {
-                await _taskService.UpdateTaskAsync(id, _mapper.Map<UpdateTaskDto>(request));
+                await _taskService.UpdateTaskAsync(id, _mapper.Map<UpdateTaskDto>(request), cancellationToken);
                 _logger.LogInformation("Successfully updated task with ID {TaskId}", id);
                 return NoContent();
             }

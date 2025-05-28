@@ -46,11 +46,11 @@ public class TaskServiceTests
         var taskDto = new TaskDto { Id = taskId, Title = "Test Task" };
 
         _mockCurrentUserProvider.Setup(p => p.GetCurrentUserId()).Returns(userId);
-        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId)).ReturnsAsync(taskItem);
+        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId, It.IsAny<CancellationToken>())).ReturnsAsync(taskItem);
         _mockMapper.Setup(m => m.Map<TaskDto>(taskItem)).Returns(taskDto);
 
         // Act
-        var result = await _taskService.GetTaskByIdAsync(taskId);
+        var result = await _taskService.GetTaskByIdAsync(taskId, CancellationToken.None);
 
         // Assert
         Assert.NotNull(result);
@@ -66,9 +66,9 @@ public class TaskServiceTests
         var userId = Guid.NewGuid().ToString();
 
         _mockCurrentUserProvider.Setup(p => p.GetCurrentUserId()).Returns(userId);
-        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId)).ReturnsAsync((TaskItem)null);
+        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId, It.IsAny<CancellationToken>())).ReturnsAsync((TaskItem)null);
         // Act & Assert
-        await Assert.ThrowsAsync<NotFoundException>(() => _taskService.GetTaskByIdAsync(taskId));
+        await Assert.ThrowsAsync<NotFoundException>(() => _taskService.GetTaskByIdAsync(taskId, CancellationToken.None));
     }
 
     [Fact]
@@ -82,10 +82,10 @@ public class TaskServiceTests
         var taskItem = new TaskItem { Id = taskId, UserId = Guid.Parse(differentUserId), Title = "Test Task" };
 
         _mockCurrentUserProvider.Setup(p => p.GetCurrentUserId()).Returns(userId);
-        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId)).ReturnsAsync(taskItem);
+        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId, It.IsAny<CancellationToken>())).ReturnsAsync(taskItem);
 
         // Act & Assert
-        await Assert.ThrowsAsync<NotFoundException>(() => _taskService.GetTaskByIdAsync(taskId));
+        await Assert.ThrowsAsync<NotFoundException>(() => _taskService.GetTaskByIdAsync(taskId, CancellationToken.None));
     }
 
     // --- GetAllTasksAsync tests ---
@@ -104,13 +104,13 @@ public class TaskServiceTests
 
 
         _mockCurrentUserProvider.Setup(p => p.GetCurrentUserId()).Returns(userId);
-        _mockTaskRepository.Setup(r => r.GetAllAsync(paginationParams, userId))
+        _mockTaskRepository.Setup(r => r.GetAllAsync(paginationParams, userId, CancellationToken.None))
             .ReturnsAsync((taskItems, totalCount));
         _mockMapper.Setup(m => m.Map<IEnumerable<TaskDto>>(taskItems))
             .Returns(taskItems.Select(t => new TaskDto { Id = t.Id, Title = t.Title }));
 
         // Act
-        var result = await _taskService.GetAllTasksAsync(paginationParams);
+        var result = await _taskService.GetAllTasksAsync(paginationParams, CancellationToken.None);
         // Assert
         Assert.NotNull(result);
         Assert.Equal(totalCount, result.TotalCount);
@@ -128,11 +128,11 @@ public class TaskServiceTests
         var totalCount = 0;
 
         _mockCurrentUserProvider.Setup(p => p.GetCurrentUserId()).Returns(userId);
-        _mockTaskRepository.Setup(r => r.GetAllAsync(paginationParams, userId))
+        _mockTaskRepository.Setup(r => r.GetAllAsync(paginationParams, userId, It.IsAny<CancellationToken>()))
            .ReturnsAsync((taskItems, totalCount));
 
         // Act
-        var result = await _taskService.GetAllTasksAsync(paginationParams);
+        var result = await _taskService.GetAllTasksAsync(paginationParams, CancellationToken.None);
 
         // Assert
         Assert.NotNull(result);
@@ -156,16 +156,16 @@ public class TaskServiceTests
 
         _mockCurrentUserProvider.Setup(p => p.GetCurrentUserId()).Returns(userId);
 
-        _mockTaskRepository.Setup(p => p.AddAsync(It.IsAny<TaskItem>()))
-             .Callback<TaskItem>(ti => capturedTaskItem = ti)
-             .ReturnsAsync((TaskItem ti) => ti);
+        _mockTaskRepository.Setup(p => p.AddAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()))
+             .Callback<TaskItem, CancellationToken>((ti, ct) => capturedTaskItem = ti)
+             .ReturnsAsync((TaskItem ti, CancellationToken ct) => ti);
 
         _mockMapper.Setup(m => m.Map<TaskItem>(item))
             .Returns((CreateTaskDto src) => new TaskItem { Title = src.Title, Description = src.Description });
         _mockMapper.Setup(m => m.Map<TaskDto>(It.IsAny<TaskItem>()))
                    .Returns((TaskItem ti) => new TaskDto { Id = ti.Id, Title = ti.Title, Description = ti.Description, IsCompleted = ti.IsCompleted });
         // Act
-        var result = await _taskService.AddTaskAsync(item);
+        var result = await _taskService.AddTaskAsync(item, CancellationToken.None);
         // Assert
         Assert.NotNull(result);
         Assert.Equal(item.Title, result.Title);
@@ -189,10 +189,10 @@ public class TaskServiceTests
 
         _mockCurrentUserProvider.Setup(p => p.GetCurrentUserId()).Returns(userIdString);
         _mockMapper.Setup(m => m.Map<TaskItem>(createTaskDto)).Returns(new TaskItem());
-        _mockTaskRepository.Setup(r => r.AddAsync(It.IsAny<TaskItem>())).ThrowsAsync(expectedException);
+        _mockTaskRepository.Setup(r => r.AddAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>())).ThrowsAsync(expectedException);
 
         // Act & Assert
-        var caughtException = await Assert.ThrowsAsync<InvalidOperationException>(() => _taskService.AddTaskAsync(createTaskDto));
+        var caughtException = await Assert.ThrowsAsync<InvalidOperationException>(() => _taskService.AddTaskAsync(createTaskDto, CancellationToken.None));
         Assert.Equal(expectedException, caughtException);
     }
 
@@ -219,16 +219,16 @@ public class TaskServiceTests
         };
 
         _mockCurrentUserProvider.Setup(p => p.GetCurrentUserId()).Returns(userId.ToString());
-        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId)).ReturnsAsync(taskItem);
-        _mockTaskRepository.Setup(r => r.UpdateAsync(taskItem)).Returns(Task.CompletedTask);
+        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId, It.IsAny<CancellationToken>())).ReturnsAsync(taskItem);
+        _mockTaskRepository.Setup(r => r.UpdateAsync(taskItem, It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
         _mockMapper.Setup(m => m.Map(updateTask, taskItem));
 
         // Act
-        await _taskService.UpdateTaskAsync(taskId, updateTask);
+        await _taskService.UpdateTaskAsync(taskId, updateTask, CancellationToken.None);
 
         // Assert
-        _mockTaskRepository.Verify(r => r.UpdateAsync(taskItem), Times.Once);
+        _mockTaskRepository.Verify(r => r.UpdateAsync(taskItem, It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
@@ -253,13 +253,13 @@ public class TaskServiceTests
         };
 
         _mockCurrentUserProvider.Setup(p => p.GetCurrentUserId()).Returns(userId.ToString());
-        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId)).ReturnsAsync(taskItem);
-        _mockTaskRepository.Setup(r => r.UpdateAsync(taskItem)).Returns(Task.CompletedTask);
+        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId, It.IsAny<CancellationToken>())).ReturnsAsync(taskItem);
+        _mockTaskRepository.Setup(r => r.UpdateAsync(taskItem, It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
         _mockMapper.Setup(m => m.Map(updateTask, taskItem));
 
         // Act & Assert
-        await Assert.ThrowsAsync<NotFoundException>(() => _taskService.UpdateTaskAsync(taskId, updateTask));
+        await Assert.ThrowsAsync<NotFoundException>(() => _taskService.UpdateTaskAsync(taskId, updateTask, CancellationToken.None));
     }
 
     [Fact]
@@ -276,10 +276,10 @@ public class TaskServiceTests
         };
 
         _mockCurrentUserProvider.Setup(p => p.GetCurrentUserId()).Returns(userId.ToString());
-        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId)).ReturnsAsync((TaskItem)null);
+        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId, It.IsAny<CancellationToken>())).ReturnsAsync((TaskItem)null);
 
         // Act & Assert
-        await Assert.ThrowsAsync<NotFoundException>(() => _taskService.UpdateTaskAsync(taskId, updateTask));
+        await Assert.ThrowsAsync<NotFoundException>(() => _taskService.UpdateTaskAsync(taskId, updateTask, CancellationToken.None));
     }
 
     // --- DeleteTaskAsync tests ---
@@ -299,13 +299,13 @@ public class TaskServiceTests
         };
 
         _mockCurrentUserProvider.Setup(p => p.GetCurrentUserId()).Returns(userId.ToString());
-        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId)).ReturnsAsync(taskItem);
-        _mockTaskRepository.Setup(r => r.DeleteAsync(taskId)).Returns(Task.CompletedTask);
+        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId, It.IsAny<CancellationToken>())).ReturnsAsync(taskItem);
+        _mockTaskRepository.Setup(r => r.DeleteAsync(taskId, It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
         // Act
-        await _taskService.DeleteTaskAsync(taskId);
+        await _taskService.DeleteTaskAsync(taskId, CancellationToken.None);
 
         // Assert
-        _mockTaskRepository.Verify(r => r.DeleteAsync(taskId), Times.Once);
+        _mockTaskRepository.Verify(r => r.DeleteAsync(taskId, It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
@@ -325,10 +325,10 @@ public class TaskServiceTests
         };
 
         _mockCurrentUserProvider.Setup(p => p.GetCurrentUserId()).Returns(userId.ToString());
-        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId)).ReturnsAsync(taskItem);
+        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId, It.IsAny<CancellationToken>())).ReturnsAsync(taskItem);
 
         // Act & Assert
-        await Assert.ThrowsAsync<NotFoundException>(() => _taskService.DeleteTaskAsync(taskId));
+        await Assert.ThrowsAsync<NotFoundException>(() => _taskService.DeleteTaskAsync(taskId, CancellationToken.None));
     }
 
     [Fact]
@@ -339,11 +339,11 @@ public class TaskServiceTests
         var taskId = Guid.NewGuid();
 
         _mockCurrentUserProvider.Setup(p => p.GetCurrentUserId()).Returns(userId.ToString());
-        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId)).ReturnsAsync((TaskItem)null);
+        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId, It.IsAny<CancellationToken>())).ReturnsAsync((TaskItem)null);
 
         // Act & Assert
-        await Assert.ThrowsAsync<NotFoundException>(() => _taskService.DeleteTaskAsync(taskId));
-        _mockTaskRepository.Verify(r => r.DeleteAsync(It.IsAny<Guid>()), Times.Never);
+        await Assert.ThrowsAsync<NotFoundException>(() => _taskService.DeleteTaskAsync(taskId, CancellationToken.None));
+        _mockTaskRepository.Verify(r => r.DeleteAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 
     // --- CompleteTaskAsync tests ----
@@ -364,11 +364,11 @@ public class TaskServiceTests
         };
 
         _mockCurrentUserProvider.Setup(p => p.GetCurrentUserId()).Returns(userId);
-        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId)).ReturnsAsync(taskItem);
-        _mockTaskRepository.Setup(r => r.UpdateAsync(taskItem)).Returns(Task.CompletedTask);
+        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId, It.IsAny<CancellationToken>())).ReturnsAsync(taskItem);
+        _mockTaskRepository.Setup(r => r.UpdateAsync(taskItem, It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
         // Act
-        await _taskService.CompleteTaskAsync(taskId);
+        await _taskService.CompleteTaskAsync(taskId, CancellationToken.None);
 
         // Assert
         Assert.True(taskItem.IsCompleted);
@@ -385,13 +385,13 @@ public class TaskServiceTests
         var taskItem = new TaskItem { Id = taskId, UserId = Guid.Parse(userId), Title = "Completed Task", IsCompleted = true, CompletedAt = completedAt };
 
         _mockCurrentUserProvider.Setup(p => p.GetCurrentUserId()).Returns(userId);
-        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId)).ReturnsAsync(taskItem);
+        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId, It.IsAny<CancellationToken>())).ReturnsAsync(taskItem);
 
         // Act
-        await _taskService.CompleteTaskAsync(taskId);
+        await _taskService.CompleteTaskAsync(taskId, CancellationToken.None);
 
         // Assert
-        _mockTaskRepository.Verify(r => r.UpdateAsync(It.IsAny<TaskItem>()), Times.Never);
+        _mockTaskRepository.Verify(r => r.UpdateAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()), Times.Never);
         Assert.True(taskItem.IsCompleted);
         Assert.Equal(completedAt, taskItem.CompletedAt);
     }
@@ -404,10 +404,10 @@ public class TaskServiceTests
         var taskId = Guid.NewGuid();
 
         _mockCurrentUserProvider.Setup(p => p.GetCurrentUserId()).Returns(userId.ToString());
-        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId)).ReturnsAsync((TaskItem)null);
+        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId, It.IsAny<CancellationToken>())).ReturnsAsync((TaskItem)null);
 
         // Act & Assert
-        await Assert.ThrowsAsync<NotFoundException>(() => _taskService.CompleteTaskAsync(taskId));
+        await Assert.ThrowsAsync<NotFoundException>(() => _taskService.CompleteTaskAsync(taskId, CancellationToken.None));
     }
 
     [Fact]
@@ -426,10 +426,10 @@ public class TaskServiceTests
         };
 
         _mockCurrentUserProvider.Setup(p => p.GetCurrentUserId()).Returns(userId.ToString());
-        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId)).ReturnsAsync(taskItem);
+        _mockTaskRepository.Setup(r => r.GetByIdAsync(taskId, It.IsAny<CancellationToken>())).ReturnsAsync(taskItem);
 
         // Act & Assert
-        await Assert.ThrowsAsync<NotFoundException>(() => _taskService.CompleteTaskAsync(taskId));
+        await Assert.ThrowsAsync<NotFoundException>(() => _taskService.CompleteTaskAsync(taskId, CancellationToken.None));
     }
 
 }
