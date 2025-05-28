@@ -15,6 +15,8 @@ using System.Text;
 using Serilog;
 using System.Threading.RateLimiting;
 using Presentation.DTOs;
+using Microsoft.Extensions.DependencyInjection;
+using Scalar.AspNetCore;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -70,6 +72,7 @@ try
         };
     });
 
+    builder.Services.AddOpenApi();
     builder.Services.AddControllers();
 
     builder.Services.Configure<ApiBehaviorOptions>(options =>
@@ -136,6 +139,12 @@ try
     app.UseMiddleware<ExceptionHandlingMiddleware>();
 
     app.UseCors();
+
+    if (app.Environment.IsDevelopment())
+    {
+        app.MapOpenApi();
+        app.MapScalarApiReference();    
+    }
 
     app.UseAuthentication();
     app.UseAuthorization();
