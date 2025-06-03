@@ -15,8 +15,9 @@ using System.Text;
 using Serilog;
 using System.Threading.RateLimiting;
 using Presentation.DTOs;
-using Microsoft.Extensions.DependencyInjection;
 using Scalar.AspNetCore;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using HealthChecks.UI.Client;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -34,6 +35,12 @@ try
     {
         options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
         {
+            var path = httpContext.Request.Path.Value;
+
+            if (path.StartsWith("/health") || path.StartsWith("/healthchecks-ui"))
+            {
+                return RateLimitPartition.GetNoLimiter("HealthCheck");
+            }
             if (httpContext.User.Identity?.IsAuthenticated == true)
             {
                 return RateLimitPartition.GetFixedWindowLimiter(
@@ -122,6 +129,15 @@ try
     builder.Services.AddScoped<ITokenService, TokenService>();
     builder.Services.AddScoped<ICurrentUserProvider, CurrentUserProdiver>();
     builder.Services.AddHttpContextAccessor();
+    builder.Services.AddHealthChecks()
+        .AddSqlite("Data Source=tasks.db", name: "SqlLite");
+
+    builder.Services.AddHealthChecksUI(options =>
+    {
+        options.SetEvaluationTimeInSeconds(10);
+        options.AddHealthCheckEndpoint("SQLite", "/health");
+    })
+    .AddSqliteStorage("Data Source=tasks.db");
 
     builder.Services.AddAutoMapper(typeof(Presentation.AssemblyReference).Assembly);
 
@@ -143,15 +159,19 @@ try
     if (app.Environment.IsDevelopment())
     {
         app.MapOpenApi();
-        app.MapScalarApiReference();    
+        app.MapScalarApiReference();
     }
 
     app.UseAuthentication();
     app.UseAuthorization();
-
+    app.MapHealthChecks(
+    "/health",
+        new HealthCheckOptions
+        {
+            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+        });
+    app.MapHealthChecksUI();
     app.MapControllers();
-
-    app.MapGet("/", () => "Hello World!");
 
     app.Run();
 }
