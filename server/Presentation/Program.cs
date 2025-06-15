@@ -1,4 +1,4 @@
-using Infrastructure.Data;
+﻿using Infrastructure.Data;
 using Infrastructure.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Presentation.Middlewares;
@@ -28,7 +28,7 @@ try
     builder.Services.AddAuthenticationWithJwt(builder.Configuration);
     builder.Services.AddSerilog();
     builder.Services.RegisterApplicationServices();
-    builder.Services.AddHealthCheckWithUI("Data Source=tasks.db");
+    builder.Services.AddHealthCheckWithUI(builder.Configuration);
     builder.Services.AddAutoMapper(typeof(Presentation.AssemblyReference).Assembly);
     builder.Services.AddApplicationDbContext(builder.Configuration);
     builder.Services.AddIdentityCore<ApplicationUser>(options => { })

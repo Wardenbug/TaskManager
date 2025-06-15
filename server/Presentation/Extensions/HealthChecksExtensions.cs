@@ -2,17 +2,17 @@
 
 public static class HealthChecksExtensions
 {
-    public static IServiceCollection AddHealthCheckWithUI(this IServiceCollection services, string connectionString)
+    public static IServiceCollection AddHealthCheckWithUI(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddHealthChecks()
-        .AddSqlite(connectionString, name: "SqlLite");
+        .AddNpgSql(configuration.GetConnectionString("DefaultConnection"), name: "sql");
 
         services.AddHealthChecksUI(options =>
         {
             options.SetEvaluationTimeInSeconds(10);
-            options.AddHealthCheckEndpoint("SQLite", "/health");
+            options.AddHealthCheckEndpoint("sql", "/health");
         })
-        .AddSqliteStorage(connectionString);
+        .AddInMemoryStorage();
 
         return services;
     }
