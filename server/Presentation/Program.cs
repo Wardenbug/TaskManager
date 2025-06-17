@@ -35,6 +35,11 @@ try
         .AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<AppDbContext>()
         .AddDefaultTokenProviders();
+    builder.Services.AddStackExchangeRedisCache((redisOptions) =>
+    {
+        var connectionString = builder.Configuration.GetConnectionString("Redis");
+        redisOptions.Configuration = connectionString;
+    });
 
     var app = builder.Build();
 
