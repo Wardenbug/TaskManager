@@ -72,7 +72,7 @@ namespace Infrastructure.Data.Repositories
             {
                 var query = _context.Tasks
                    .AsNoTracking()
-                   .Where(task => task.UserId.ToString() == userId)
+                   .Where(task => task.UserId == userId)
                    .Where(task => task.Title.Contains(paginationParams.SearchTerm));
 
                 var totalCount = await query.CountAsync(cancellationToken);

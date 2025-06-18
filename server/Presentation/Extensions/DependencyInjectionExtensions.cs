@@ -10,7 +10,8 @@ public static class DependencyInjectionExtensions
 {
     public static IServiceCollection RegisterApplicationServices(this IServiceCollection services)
     {
-        services.AddScoped<ITaskRepository, TaskRepository>();
+        services.AddScoped<TaskRepository>();
+        services.AddScoped<ITaskRepository, CachedTaskRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<TaskService>();
         services.AddScoped<UserService>();
