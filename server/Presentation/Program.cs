@@ -52,6 +52,7 @@ try
     {
         app.MapOpenApi();
         app.MapScalarApiReference();
+        app.ApplyMigrations();
     }
 
     app.UseAuthentication();

@@ -10,7 +10,7 @@ public static class HealthChecksExtensions
         services.AddHealthChecksUI(options =>
         {
             options.SetEvaluationTimeInSeconds(10);
-            options.AddHealthCheckEndpoint("sql", "/health");
+            options.AddHealthCheckEndpoint("sql", "http://presentation:5000/health");
         })
         .AddInMemoryStorage();
 

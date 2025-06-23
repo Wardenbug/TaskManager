@@ -1,6 +1,29 @@
 services:
   presentation:
     image: ${DOCKER_REGISTRY-}presentation
+    container_name: presentaion
     build:
       context: .
       dockerfile: Presentation/Dockerfile
+    ports:
+      - 5000:5000
+      - 5001:5001 
+  presentation.db:
+    image: postgres:latest
+    container_name: presentation.db
+    environment:
+      - POSTGRES_DB=todos
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/presentation-db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+  presendation.redis:
+    image: redis:latest  
+    container_name: presentation.redis
+    restart: always
+    volumes:
+      - ./.containers/presentation-redis:/data
+    ports:
+      - 6379:6379
