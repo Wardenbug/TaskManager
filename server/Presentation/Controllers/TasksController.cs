@@ -1,4 +1,5 @@
-﻿using Application.DTOs.TaskDtos;
+﻿using Application.Common;
+using Application.DTOs.TaskDtos;
 using Application.Services;
 using AutoMapper;
 using Core.Domain;
@@ -24,6 +25,15 @@ namespace Presentation.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Returns a paginated list of tasks.
+        /// </summary>
+        /// <param name="paginationParams">Pagination parameters.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Paginated list of tasks.</returns>
+        [ProducesResponseType(typeof(PaginatedResult<TaskDto>), 200)]
+        [ProducesResponseType(typeof(ErrorResponseDto), 401)]
+        [ProducesResponseType(typeof(ErrorResponseDto), 500)]
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] PaginationParams paginationParams, CancellationToken cancellationToken)
         {
@@ -42,6 +52,15 @@ namespace Presentation.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes a task by its ID.
+        /// </summary>
+        /// <param name="id">Task ID.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        [ProducesResponseType(204)]
+        [ProducesResponseType(typeof(ErrorResponseDto), 401)]
+        [ProducesResponseType(typeof(ErrorResponseDto), 404)]
+        [ProducesResponseType(typeof(ErrorResponseDto), 500)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
@@ -59,6 +78,16 @@ namespace Presentation.Controllers
             }
         }
 
+        /// <summary>
+        /// Returns a task by its ID.
+        /// </summary>
+        /// <param name="id">Task ID.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Task details.</returns>
+        [ProducesResponseType(typeof(TaskDto), 200)]
+        [ProducesResponseType(typeof(ErrorResponseDto), 401)]
+        [ProducesResponseType(typeof(ErrorResponseDto), 404)]
+        [ProducesResponseType(typeof(ErrorResponseDto), 500)]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
@@ -82,6 +111,16 @@ namespace Presentation.Controllers
 
         }
 
+        /// <summary>
+        /// Creates a new task.
+        /// </summary>
+        /// <param name="request">Task creation data.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Created task.</returns>
+        [ProducesResponseType(typeof(TaskDto), 201)]
+        [ProducesResponseType(typeof(ErrorResponseDto), 400)]
+        [ProducesResponseType(typeof(ErrorResponseDto), 401)]
+        [ProducesResponseType(typeof(ErrorResponseDto), 500)]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateTaskRequest request, CancellationToken cancellationToken)
         {
@@ -101,6 +140,17 @@ namespace Presentation.Controllers
 
         }
 
+        /// <summary>
+        /// Updates an existing task.
+        /// </summary>
+        /// <param name="id">Task ID.</param>
+        /// <param name="request">Task update data.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        [ProducesResponseType(204)]
+        [ProducesResponseType(typeof(ErrorResponseDto), 400)]
+        [ProducesResponseType(typeof(ErrorResponseDto), 401)]
+        [ProducesResponseType(typeof(ErrorResponseDto), 404)]
+        [ProducesResponseType(typeof(ErrorResponseDto), 500)]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateTaskRequest request, CancellationToken cancellationToken)
         {

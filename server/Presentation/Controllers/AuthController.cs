@@ -11,6 +11,15 @@ namespace Presentation.Controllers;
 public class AuthController(UserService userService, IMapper mapper, ILogger<AuthController> logger) : ControllerBase
 {
 
+    /// <summary>
+    /// Registers a new user.
+    /// </summary>
+    /// <param name="registerData">Registration data.</param>
+    /// <param name="cancellationToken">Cancellation token.</param> 
+    /// <returns>Registered user info.</returns>
+    [ProducesResponseType(typeof(UserDto), 200)]
+    [ProducesResponseType(typeof(ErrorResponseDto), 400)]
+    [ProducesResponseType(typeof(ErrorResponseDto), 500)]
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterDto registerData, CancellationToken cancellationToken)
     {
@@ -31,6 +40,16 @@ public class AuthController(UserService userService, IMapper mapper, ILogger<Aut
 
     }
 
+    /// <summary>
+    /// Authenticates a user and returns a JWT token.
+    /// </summary>
+    /// <param name="loginData">Login data.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>Authentication response.</returns>
+    [ProducesResponseType(typeof(AuthResponseDto), 200)]
+    [ProducesResponseType(typeof(ErrorResponseDto), 400)]
+    [ProducesResponseType(typeof(ErrorResponseDto), 401)]
+    [ProducesResponseType(typeof(ErrorResponseDto), 500)]
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequestDto loginData, CancellationToken cancellationToken)
     {
@@ -47,12 +66,13 @@ public class AuthController(UserService userService, IMapper mapper, ILogger<Aut
 
             logger.LogInformation("Successfully logged in user with email: {Email}", loginData.Email);
             return Ok(response);
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             logger.LogError(ex, "Error during user login for email: {Email}", loginData.Email);
             throw;
         }
-       
+
     }
 }
 
