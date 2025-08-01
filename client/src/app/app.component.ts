@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ContainerComponent } from './core/layout/container/container.component';
+import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -15,9 +16,14 @@ import { ContainerComponent } from './core/layout/container/container.component'
 export class AppComponent implements OnInit {
   title = 'frontend';
 
+  private readonly authService: AuthService = inject(AuthService);
+
   constructor(private readonly http: HttpClient) { }
 
   ngOnInit(): void {
+
+    
+
     this.http.get('/api/tasks').subscribe(response => {
       console.log(response);
     });
