@@ -31,10 +31,12 @@ try
     builder.Services.AddHealthCheckWithUI(builder.Configuration);
     builder.Services.AddAutoMapper(typeof(Presentation.AssemblyReference).Assembly);
     builder.Services.AddApplicationDbContext(builder.Configuration);
+
     builder.Services.AddIdentityCore<ApplicationUser>(options => { })
         .AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<AppDbContext>()
         .AddDefaultTokenProviders();
+
     builder.Services.AddStackExchangeRedisCache((redisOptions) =>
     {
         var connectionString = builder.Configuration.GetConnectionString("Redis");

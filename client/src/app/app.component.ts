@@ -21,9 +21,6 @@ export class AppComponent implements OnInit {
   constructor(private readonly http: HttpClient) { }
 
   ngOnInit(): void {
-
-    
-
     this.http.get('/api/tasks').subscribe(response => {
       console.log(response);
     });

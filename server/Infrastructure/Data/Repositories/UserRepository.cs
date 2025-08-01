@@ -65,9 +65,11 @@ public class UserRepository(UserManager<ApplicationUser> userManager, IMapper ma
         }
     }
 
-    public Task<User> FindUserByIdAsync(Guid userId, CancellationToken cancellationToken)
+    public async Task<User> FindUserByIdAsync(Guid userId, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var user = await userManager.FindByIdAsync(userId.ToString());
+
+        return mapper.Map<User>(user);
     }
 
     public async Task<User> RegisterAsync(User user, string password, CancellationToken cancellationToken)

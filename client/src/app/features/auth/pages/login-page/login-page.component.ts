@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
@@ -22,6 +23,7 @@ import { AuthService } from '../../../../core/services/auth.service';
 export class LoginPageComponent {
 
   private readonly authService: AuthService = inject(AuthService);
+  private readonly router : Router = inject(Router);
 
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -67,8 +69,7 @@ export class LoginPageComponent {
 
     this.authService.login(userLogin).subscribe({
       next: (user) => {
-        console.log('Login successful', user);
-        // Handle successful login, e.g., redirect to dashboard
+        this.router.navigate(['/']);
       },
       error: (error) => {
         console.error('Login failed', error);

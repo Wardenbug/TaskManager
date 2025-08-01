@@ -8,7 +8,11 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
-public class UserService(IUserRepository _userRepository, IMapper mapper, ITokenService tokenService, ILogger<UserService> logger)
+public class UserService(
+    IUserRepository _userRepository, 
+    IMapper mapper,
+    ICurrentUserProvider _currentUserProvider,
+    ITokenService tokenService, ILogger<UserService> logger)
 {
     public async Task<UserDto> Register(RegisterUserDto registerUser, CancellationToken cancellationToken)
     {
@@ -60,11 +64,35 @@ public class UserService(IUserRepository _userRepository, IMapper mapper, IToken
 
             logger.LogInformation("Successfully logged in user {UserId} with email {Email}", user.Id, loginDto.Email);
 
-            return new AuthResponseDto { Token = token, RefreshToken = refreshToken, ExpiresAt = DateTime.UtcNow.AddDays(7) };
+            return new AuthResponseDto
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Token = token,
+                RefreshToken = refreshToken,
+                ExpiresAt = DateTime.UtcNow.AddDays(7)
+            };
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Error during login for email {Email}", loginDto.Email);
+            throw;
+        }
+    }
+
+    public async Task<UserDto> GetCurrentUser(CancellationToken cancellationToken)
+    {
+        try
+        {
+            var userId = _currentUserProvider.GetCurrentUserId();
+
+            var user = await _userRepository.FindUserByIdAsync(Guid.Parse(userId), cancellationToken);
+
+            return mapper.Map<UserDto>(user);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error during getting user");
             throw;
         }
     }

@@ -1,6 +1,7 @@
 ﻿using Application.DTOs.User;
 using Application.Services;
 using AutoMapper;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.DTOs;
 
@@ -8,7 +9,11 @@ namespace Presentation.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthController(UserService userService, IMapper mapper, ILogger<AuthController> logger) : ControllerBase
+public class UsersController(
+    UserService userService, 
+    IMapper mapper, 
+    ILogger<UsersController> logger,
+    ICurrentUserProvider currentUserProvider) : ControllerBase
 {
 
     /// <summary>
@@ -58,6 +63,26 @@ public class AuthController(UserService userService, IMapper mapper, ILogger<Aut
         {
             var response = await userService.Login(mapper.Map<LoginDto>(loginData), cancellationToken);
 
+
+            Response.Cookies.Append("access_token", response.Token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Lax,
+                Expires = DateTimeOffset.UtcNow.AddMinutes(10),
+                Path = "/"
+            });
+
+            Response.Cookies.Append("refresh_token", response.RefreshToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Lax,
+                Expires = DateTimeOffset.UtcNow.AddDays(7),
+                Path = "/auth/refresh"
+            });
+
+
             if (response is null)
             {
                 logger.LogWarning("Login failed for user with email: {Email}", loginData.Email);
@@ -65,7 +90,7 @@ public class AuthController(UserService userService, IMapper mapper, ILogger<Aut
             }
 
             logger.LogInformation("Successfully logged in user with email: {Email}", loginData.Email);
-            return Ok(response);
+            return Ok(new UserDto { Id = response.Id, UserName = response.UserName});
         }
         catch (Exception ex)
         {
@@ -73,6 +98,24 @@ public class AuthController(UserService userService, IMapper mapper, ILogger<Aut
             throw;
         }
 
+    }
+
+
+    [HttpGet("me")]
+    public async Task<IActionResult> GetUserById(CancellationToken cancellationToken)
+    {
+        try
+        {
+            var userId = currentUserProvider.GetCurrentUserId();
+
+            var user = await userService.GetCurrentUser(cancellationToken);
+
+            return Ok(user);
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
     }
 }
 
