@@ -1,29 +1,49 @@
 <div class="login-page-container">
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <mat-card class="login-card" appearance="outlined">
+        <mat-card-header>
+            <mat-card-title>Please login to application</mat-card-title>
+        </mat-card-header>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <mat-form-field class="full-width">
+                    <mat-label>Enter your email</mat-label>
+                    <input matInput placeholder="pat@example.com" formControlName="email" (blur)="updateErrorMessage()"
+                        required />
+                    @if (loginForm.get("email")?.invalid) {
+                    <mat-error>{{errorMessage()}}</mat-error>
+                    }
+                </mat-form-field>
+            </div>
 
-        <mat-form-field>
-            <mat-label>Enter your email</mat-label>
-            <input matInput placeholder="pat@example.com" formControlName="email" (blur)="updateErrorMessage()"
-                required />
-            @if (loginForm.get("email")?.invalid) {
-            <mat-error>{{errorMessage()}}</mat-error>
-            }
-        </mat-form-field>
+            <div class="row">
+                <mat-form-field class="full-width">
+                    <mat-label>Enter your password</mat-label>
+                    <input matInput p laceholder="Password" formControlName="password" required
+                        [type]="hide() ? 'password' : 'text'" />
+                    <button matIconButton matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
+                        [attr.aria-pressed]="hide()">
+                        <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    @if (loginForm.get("password")?.invalid) {
+                    <mat-error>Password is required</mat-error>
+                    }
+                </mat-form-field>
+            </div>
 
-        <mat-form-field>
-            <mat-label>Enter your password</mat-label>
-            <input matInput p laceholder="Password" formControlName="password" required
-                [type]="hide() ? 'password' : 'text'" />
-            <button matIconButton matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
-                [attr.aria-pressed]="hide()">
-                <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>
-            @if (loginForm.get("password")?.invalid) {
-            <mat-error>Password is required</mat-error>
-            }
-        </mat-form-field>
+            <div class="full-width">
+                <div class="row">
+                    <button matButton="filled" type="submit" [disabled]="!loginForm.valid">
+                        Submit
+                    </button>
 
-        <button matButton="filled" type="submit" [disabled]="!loginForm.valid">Submit</button>
-    </form>
+                    <span class="register-link">
+                        Don't have an account yet?
+                        <button matButton="text" type="button" routerLink="/auth/register">Register</button>
+                    </span>
+
+                </div>
+            </div>
+        </form>
+    </mat-card>
 
 </div>
