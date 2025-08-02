@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { FormFieldBase } from '../../../abstractions/form-field-base';
 
 @Component({
   selector: 'app-password-input',
@@ -23,39 +24,17 @@ import { MatInputModule } from '@angular/material/input';
     }
   ]
 })
-export class PasswordInputComponent {
+export class PasswordInputComponent extends FormFieldBase {
 
-  @Input({ required: true }) controlKey = '';
-  @Input() label = "Enter your password";
-  parentContainer = inject(ControlContainer);
-
-  errorMessage = signal("");
-
-  get parentFormGroup() {
-    return this.parentContainer.control as FormGroup;
+  constructor() {
+    super();
+    this.label = this.label || 'Enter your password';
   }
-
 
   hide = signal(true);
 
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
     event.stopPropagation();
-  }
-
-  updateErrorMessage() {
-    console.log(this.parentFormGroup.get(this.controlKey));
-    if (this.parentFormGroup.get(this.controlKey)?.hasError('required')) {
-      this.errorMessage.set('You must enter a value');
-    } else if (this.parentFormGroup.get(this.controlKey)?.invalid) {
-      var errorKeys = Object.keys(this.parentFormGroup.get(this.controlKey)?.errors as {});
-
-      this.errorMessage.set('Invalid password');
-
-      throw new Error(`Unhandled validation errors for ${this.controlKey}: ${errorKeys.join(', ')}`);
-    }
-    else {
-      this.errorMessage.set('');
-    }
   }
 }

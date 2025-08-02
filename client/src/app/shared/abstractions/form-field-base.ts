@@ -46,7 +46,6 @@ export abstract class FormFieldBase implements OnInit, OnDestroy {
     }
 
     protected handleSpecificErrors(): void {
-        // Этот метод будет переопределён в дочерних классах для обработки специфических ошибок
         const errors = this.control?.errors;
         if (errors) {
             const errorKeys = Object.keys(errors);

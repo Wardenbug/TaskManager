@@ -2,6 +2,7 @@ import { Component, inject, Input, signal } from '@angular/core';
 import { ControlContainer, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { FormFieldBase } from '../../../abstractions/form-field-base';
 
 @Component({
   selector: 'app-email-input',
@@ -19,30 +20,17 @@ import { MatInputModule } from '@angular/material/input';
     }
   ]
 })
-export class EmailInputComponent {
-  @Input({ required: true }) controlKey = '';
-  @Input() label = "Enter your email";
-  parentContainer = inject(ControlContainer);
-
-  errorMessage = signal("");
-
-  get parentFormGroup() {
-    return this.parentContainer.control as FormGroup;
+export class EmailInputComponent extends FormFieldBase {
+  constructor() {
+    super();
+    this.label = this.label || 'Enter your email';
   }
 
-  updateErrorMessage() {
-    if (this.parentFormGroup.get(this.controlKey)?.hasError('required')) {
-      this.errorMessage.set('You must enter a value');
-    } else if (this.parentFormGroup.get(this.controlKey)?.hasError('email')) {
+  protected override handleSpecificErrors(): void {
+    if (this.control?.hasError('email')) {
       this.errorMessage.set('Not a valid email');
-    } else if (this.parentFormGroup.get(this.controlKey)?.invalid) {
-      var errorKeys = Object.keys(this.parentFormGroup.get(this.controlKey)?.errors as {});
-
-      this.errorMessage.set(`Invalid ${this.controlKey}`);
-
-      throw new Error(`Unhandled validation errors for ${this.controlKey}: ${errorKeys.join(', ')}`);
     } else {
-      this.errorMessage.set('');
+      super.handleSpecificErrors();
     }
   }
 }
