@@ -3,7 +3,7 @@
         <mat-card-header>
             <mat-card-title>Please login to application</mat-card-title>
         </mat-card-header>
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
             <div class="row">
                 <app-email-input [controlKey]="'email'" />
             </div>

@@ -1,1 +1,11 @@
-<p>text-input works!</p>
+<app-form-field-wrapper [controlKey]="controlKey" [label]="label" [errorMessage]="errorMessage">
+
+    <input 
+        matInput 
+        placeholder="Enter text " 
+        [formControlName]="controlKey" 
+        (blur)="updateErrorMessage()"
+        required 
+    />
+
+</app-form-field-wrapper>

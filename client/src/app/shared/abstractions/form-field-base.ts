@@ -49,7 +49,7 @@ export abstract class FormFieldBase implements OnInit, OnDestroy {
         const errors = this.control?.errors;
         if (errors) {
             const errorKeys = Object.keys(errors);
-            this.errorMessage.set(`Invalid ${this.label}`);
+            this.errorMessage.set(`Invalid ${this.controlKey}`);
             throw new Error(`Unhandled validation errors for ${this.controlKey}: ${errorKeys.join(', ')}`);
         } else {
             this.errorMessage.set('');

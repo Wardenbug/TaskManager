@@ -3,13 +3,15 @@ import { ControlContainer, FormGroup, ReactiveFormsModule } from '@angular/forms
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormFieldBase } from '../../../abstractions/form-field-base';
+import { FormFieldWrapperComponent } from '../../form-field-wrapper/form-field-wrapper.component';
 
 @Component({
   selector: 'app-email-input',
   imports: [
     MatFormFieldModule,
     ReactiveFormsModule,
-    MatInputModule
+    MatInputModule,
+    FormFieldWrapperComponent
   ],
   templateUrl: './email-input.component.html',
   styleUrl: './email-input.component.scss',

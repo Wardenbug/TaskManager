@@ -25,7 +25,6 @@ import { FormFieldBase } from '../../../abstractions/form-field-base';
   ]
 })
 export class PasswordInputComponent extends FormFieldBase {
-
   constructor() {
     super();
     this.label = this.label || 'Enter your password';

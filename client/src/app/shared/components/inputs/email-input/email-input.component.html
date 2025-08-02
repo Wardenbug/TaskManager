@@ -1,5 +1,5 @@
-<mat-form-field class="full-width">
-    <mat-label>{{label}}</mat-label>
+<app-form-field-wrapper [controlKey]="controlKey" [label]="label" [errorMessage]="errorMessage">
+
     <input 
         matInput 
         placeholder="pat@example.com" 
@@ -8,7 +8,4 @@
         required 
     />
 
-    @if (parentFormGroup.get(controlKey)?.invalid) {
-        <mat-error>{{errorMessage()}}</mat-error>
-    }
-</mat-form-field>
+</app-form-field-wrapper>

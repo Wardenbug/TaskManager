@@ -1,0 +1,9 @@
+<mat-form-field class="full-width">
+    <mat-label>{{ label }}</mat-label>
+
+    <ng-content></ng-content>
+
+    @if (parentFormGroup.get(controlKey)?.invalid) {
+    <mat-error>{{ errorMessage() }}</mat-error>
+    }
+</mat-form-field>
