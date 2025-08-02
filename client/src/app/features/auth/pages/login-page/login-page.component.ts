@@ -8,6 +8,8 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
+import { EmailInputComponent } from '../../../../shared/components/inputs/email-input/email-input.component';
+import { PasswordInputComponent } from "../../../../shared/components/inputs/password-input/password-input.component";
 
 @Component({
   selector: 'app-login-page',
@@ -18,8 +20,10 @@ import { RouterLink } from '@angular/router';
     MatIconModule,
     MatButtonModule,
     MatCardModule,
-    RouterLink
-  ],
+    RouterLink,
+    EmailInputComponent,
+    PasswordInputComponent
+],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss'
 })
@@ -30,38 +34,21 @@ export class LoginPageComponent {
 
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', Validators.required)
+    password: new FormControl('', [Validators.required, Validators.minLength(6)])
   });
 
-  errorMessage = signal("");
-
-  updateErrorMessage() {
-    if (this.loginForm.get("email")?.hasError('required')) {
-      this.errorMessage.set('You must enter a value');
-    } else if (this.loginForm.get("email")?.hasError('email')) {
-      this.errorMessage.set('Not a valid email');
-    } else {
-      this.errorMessage.set('');
-    }
-  }
-
-  hide = signal(true);
-  clickEvent(event: MouseEvent) {
-    this.hide.set(!this.hide());
-    event.stopPropagation();
-  }
   onSubmit() {
     console.log('Form Submitted', this.loginForm.value);
 
     const { email, password } = this.loginForm.value;
 
     if (typeof email !== 'string' || email.trim() === '') {
-      this.errorMessage.set('Email is required.');
+      // this.errorMessage.set('Email is required.');
       return;
     }
 
     if (typeof password !== 'string' || password.trim() === '') {
-      this.errorMessage.set('Password is required.');
+      // this.errorMessage.set('Password is required.');
       return;
     }
 
@@ -76,7 +63,7 @@ export class LoginPageComponent {
       },
       error: (error) => {
         console.error('Login failed', error);
-        this.errorMessage.set('Login failed. Please check your credentials.');
+        // this.errorMessage.set('Login failed. Please check your credentials.');
       },
       complete: () => console.info('Login request completed')
     })

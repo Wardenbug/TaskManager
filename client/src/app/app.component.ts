@@ -1,14 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ContainerComponent } from './core/layout/container/container.component';
 import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
   imports: [
-    RouterOutlet,
-    ContainerComponent
+    RouterOutlet
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
