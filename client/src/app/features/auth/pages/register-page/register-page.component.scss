@@ -1,0 +1,25 @@
+.register-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.register-card {
+  min-width: 500px;
+  padding: 10px 20px;
+}
+.row{
+    display: flex;
+    flex-direction: column;
+}
+
+.login-link{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.login-form{
+  padding: 16px;
+}

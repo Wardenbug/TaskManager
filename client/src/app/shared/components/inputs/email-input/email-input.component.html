@@ -1,11 +1,9 @@
-<app-form-field-wrapper [controlKey]="controlKey" [label]="label" [errorMessage]="errorMessage">
+<mat-form-field class="full-width">
+    <mat-label>{{ label }}</mat-label>
+    <input matInput placeholder="pat@example.com" [formControlName]="controlKey" (blur)="updateErrorMessage()"
+        required />
 
-    <input 
-        matInput 
-        placeholder="pat@example.com" 
-        [formControlName]="controlKey" 
-        (blur)="updateErrorMessage()"
-        required 
-    />
-
-</app-form-field-wrapper>
+    @if (parentFormGroup.get(controlKey)?.invalid) {
+    <mat-error>{{ errorMessage() }}</mat-error>
+    }
+</mat-form-field>

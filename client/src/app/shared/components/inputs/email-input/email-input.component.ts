@@ -3,7 +3,6 @@ import { ControlContainer, FormGroup, ReactiveFormsModule } from '@angular/forms
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormFieldBase } from '../../../abstractions/form-field-base';
-import { FormFieldWrapperComponent } from '../../form-field-wrapper/form-field-wrapper.component';
 
 @Component({
   selector: 'app-email-input',
@@ -11,7 +10,6 @@ import { FormFieldWrapperComponent } from '../../form-field-wrapper/form-field-w
     MatFormFieldModule,
     ReactiveFormsModule,
     MatInputModule,
-    FormFieldWrapperComponent
   ],
   templateUrl: './email-input.component.html',
   styleUrl: './email-input.component.scss',

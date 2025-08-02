@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormFieldBase } from '../../../abstractions/form-field-base';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { FormFieldWrapperComponent } from '../../form-field-wrapper/form-field-wrapper.component';
 
 @Component({
   selector: 'app-text-input',
@@ -11,10 +10,15 @@ import { FormFieldWrapperComponent } from '../../form-field-wrapper/form-field-w
     MatFormFieldModule,
     ReactiveFormsModule,
     MatInputModule,
-    FormFieldWrapperComponent
   ],
   templateUrl: './text-input.component.html',
-  styleUrl: './text-input.component.scss'
+  styleUrl: './text-input.component.scss',
+  viewProviders: [
+    {
+      provide: ControlContainer,
+      useFactory: () => inject(ControlContainer, { skipSelf: true }),
+    }
+  ]
 })
 export class TextInputComponent extends FormFieldBase {
   constructor() {

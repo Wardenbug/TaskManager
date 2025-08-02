@@ -1,1 +1,35 @@
-<p>register-page works!</p>
+<div class="register-page-container">
+    <mat-card class="register-card" appearance="outlined">
+        <mat-card-header>
+            <mat-card-title>Register new account</mat-card-title>
+        </mat-card-header>
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="login-form">
+            <div class="row">
+                <app-text-input [controlKey]="'userName'" label="Enter your username"/>
+            </div>
+            <div class="row">
+                <app-email-input [controlKey]="'email'" />
+            </div>
+
+            <div class="row">
+                <app-password-input [controlKey]="'password'" />
+            </div>
+
+            <div class="row">
+                <app-password-input [controlKey]="'confirmPassword'" />
+            </div>
+
+            <div class="full-width">
+                <div class="row">
+                    <button matButton="filled" type="submit" [disabled]="!registerForm.valid">
+                        Sign Up
+                    </button>
+                    <span class="login-link">
+                        <button matButton="text" type="button" routerLink="/auth/login"> Back to login</button>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </mat-card>
+
+</div>
