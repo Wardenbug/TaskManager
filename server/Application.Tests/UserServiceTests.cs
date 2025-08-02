@@ -15,6 +15,7 @@ public class UserServiceTests
     private readonly Mock<IUserRepository> _mockUserRepository;
     private readonly Mock<IMapper> _mockMapper;
     private readonly Mock<ITokenService> _mockTokenService;
+    private readonly Mock<ICurrentUserProvider> _mockCurrentUserProvider;
     private readonly Mock<ILogger<UserService>> _mockLogger;
     private readonly UserService _userService;
 
@@ -24,10 +25,12 @@ public class UserServiceTests
         _mockMapper = new Mock<IMapper>();
         _mockTokenService = new Mock<ITokenService>();
         _mockLogger = new Mock<ILogger<UserService>>();
+        _mockCurrentUserProvider = new Mock<ICurrentUserProvider>();
 
         _userService = new UserService(
             _mockUserRepository.Object,
             _mockMapper.Object,
+            _mockCurrentUserProvider.Object,
             _mockTokenService.Object,
             _mockLogger.Object
         );
@@ -151,5 +154,64 @@ public class UserServiceTests
 
         // Act & Assert
         await Assert.ThrowsAsync<InvalidOperationException>(() => _userService.Login(loginDto, CancellationToken.None));
+    }
+
+    // GetCurrentUser Tests
+
+    [Fact]
+    public async Task GetCurrentUser_ReturnsUserDto_WhenUserIsFound()
+    {
+        // Arrange
+        var userId = Guid.NewGuid();
+        var user = new User { Id = userId, UserName = "CurrentUser" };
+        var userDto = new UserDto { Id = userId, UserName = "CurrentUser" };
+
+        _mockCurrentUserProvider.Setup(p => p.GetCurrentUserId()).Returns(userId.ToString());
+        _mockUserRepository.Setup(r => r.FindUserByIdAsync(userId, It.IsAny<CancellationToken>())).ReturnsAsync(user);
+        _mockMapper.Setup(m => m.Map<UserDto>(user)).Returns(userDto);
+
+        // Act
+        var result = await _userService.GetCurrentUser(CancellationToken.None);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(userDto.UserName, result.UserName);
+        Assert.Equal(userDto.Id, result.Id);
+    }
+
+    [Fact]
+    public async Task GetCurrentUser_ThrowsValidationException_WhenUserIdIsNotFound()
+    {
+        // Arrange
+        _mockCurrentUserProvider.Setup(p => p.GetCurrentUserId()).Returns((string)null);
+
+        // Act & Assert
+        await Assert.ThrowsAsync<ValidationException>(() => _userService.GetCurrentUser(CancellationToken.None));
+    }
+
+    [Fact]
+    public async Task GetCurrentUser_ThrowsValidationException_WhenUserDoesNotExistInRepository()
+    {
+        // Arrange
+        var userId = Guid.NewGuid();
+        _mockCurrentUserProvider.Setup(p => p.GetCurrentUserId()).Returns(userId.ToString());
+        _mockUserRepository.Setup(r => r.FindUserByIdAsync(userId, It.IsAny<CancellationToken>())).ReturnsAsync((User)null);
+
+        // Act & Assert
+        await Assert.ThrowsAsync<ValidationException>(() => _userService.GetCurrentUser(CancellationToken.None));
+    }
+
+    [Fact]
+    public async Task GetCurrentUser_ThrowsException_WhenRepositoryFails()
+    {
+        // Arrange
+        var userId = Guid.NewGuid();
+        var expectedException = new InvalidOperationException("Database error during find user by id");
+
+        _mockCurrentUserProvider.Setup(p => p.GetCurrentUserId()).Returns(userId.ToString());
+        _mockUserRepository.Setup(r => r.FindUserByIdAsync(userId, It.IsAny<CancellationToken>())).ThrowsAsync(expectedException);
+
+        // Act & Assert
+        await Assert.ThrowsAsync<InvalidOperationException>(() => _userService.GetCurrentUser(CancellationToken.None));
     }
 }

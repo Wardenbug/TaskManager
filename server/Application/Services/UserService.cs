@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 namespace Application.Services;
 
 public class UserService(
-    IUserRepository _userRepository, 
+    IUserRepository _userRepository,
     IMapper mapper,
     ICurrentUserProvider _currentUserProvider,
     ITokenService tokenService, ILogger<UserService> logger)
@@ -82,17 +82,32 @@ public class UserService(
 
     public async Task<UserDto> GetCurrentUser(CancellationToken cancellationToken)
     {
+        logger.LogInformation("Attempting to get current user");
         try
         {
             var userId = _currentUserProvider.GetCurrentUserId();
+            logger.LogInformation("Retrieving user with ID {UserId}", userId);
+
+            if (userId is null)
+            {
+                logger.LogWarning("Current user ID is null");
+                throw new ValidationException("Current user not found.");
+            }
 
             var user = await _userRepository.FindUserByIdAsync(Guid.Parse(userId), cancellationToken);
+            if (user is null)
+            {
+                logger.LogWarning("User with ID {UserId} not found in repository", userId);
+                throw new ValidationException("Current user not found.");
+            }
+
+            logger.LogInformation("Successfully retrieved current user with ID {UserId}", userId);
 
             return mapper.Map<UserDto>(user);
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error during getting user");
+            logger.LogError(ex, "Error during getting current user");
             throw;
         }
     }

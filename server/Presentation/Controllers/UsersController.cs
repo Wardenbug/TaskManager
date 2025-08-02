@@ -2,6 +2,7 @@
 using Application.Services;
 using AutoMapper;
 using Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.DTOs;
 
@@ -10,8 +11,8 @@ namespace Presentation.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 public class UsersController(
-    UserService userService, 
-    IMapper mapper, 
+    UserService userService,
+    IMapper mapper,
     ILogger<UsersController> logger,
     ICurrentUserProvider currentUserProvider) : ControllerBase
 {
@@ -90,7 +91,7 @@ public class UsersController(
             }
 
             logger.LogInformation("Successfully logged in user with email: {Email}", loginData.Email);
-            return Ok(new UserDto { Id = response.Id, UserName = response.UserName});
+            return Ok(new UserDto { Id = response.Id, UserName = response.UserName });
         }
         catch (Exception ex)
         {
@@ -100,20 +101,34 @@ public class UsersController(
 
     }
 
-
+    /// <summary>
+    /// Gets the current authenticated user's information.
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>Current user info.</returns>
+    [Authorize]
+    [ProducesResponseType(typeof(UserDto), 200)]
+    [ProducesResponseType(typeof(ErrorResponseDto), 401)]
+    [ProducesResponseType(typeof(ErrorResponseDto), 404)]
+    [ProducesResponseType(typeof(ErrorResponseDto), 500)]
     [HttpGet("me")]
     public async Task<IActionResult> GetUserById(CancellationToken cancellationToken)
     {
+        logger.LogInformation("Attempting to get current user information.");
         try
         {
             var userId = currentUserProvider.GetCurrentUserId();
+            logger.LogInformation("Current user ID from provider: {UserId}", userId);
 
             var user = await userService.GetCurrentUser(cancellationToken);
+
+            logger.LogInformation("Successfully retrieved user information for user ID: {UserId}", userId);
 
             return Ok(user);
         }
         catch (Exception ex)
         {
+            logger.LogError(ex, "Error retrieving current user information.");
             throw;
         }
     }
