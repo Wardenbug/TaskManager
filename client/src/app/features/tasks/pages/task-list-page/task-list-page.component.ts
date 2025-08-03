@@ -10,6 +10,7 @@ import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
+import { PaginationParams } from '../../types/pagination-params';
 
 @Component({
   selector: 'app-task-list-page',
@@ -32,6 +33,8 @@ export class TaskListPageComponent implements AfterViewInit {
   private readonly authService = inject(AuthService);
   public result: PaginatedResult<Task> | null = null;
 
+  private paginationParams: PaginationParams | undefined;
+
   get userName() {
     return this.authService.User?.userName || 'Guest';
   }
@@ -50,17 +53,29 @@ export class TaskListPageComponent implements AfterViewInit {
 
   onPageChange($event: PageEvent) {
     console.log('Page changed:', $event);
-    throw new Error('Method not implemented.');
+
+    this.paginationParams = {
+      pageNumber: $event.pageIndex + 1,
+      pageSize: $event.pageSize
+    };
+    this.loadTasks();
   }
 
-  ngOnInit() {
-    this.taskService.getTasks().subscribe({
+  private loadTasks() {
+    this.taskService.getTasks(this.paginationParams).subscribe({
       next: (tasks) => {
         this.result = tasks;
         this.dataSource.data = tasks.items;
+        this.paginationParams = {
+          pageNumber: tasks.currentPage,
+          pageSize: tasks.pageSize
+        }
         console.log('Tasks fetched successfully:', tasks);
       }
     });
+  }
+  ngOnInit() {
+    this.loadTasks();
   }
 
 }
