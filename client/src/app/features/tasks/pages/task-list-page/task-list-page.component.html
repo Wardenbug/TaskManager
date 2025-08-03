@@ -1,1 +1,51 @@
-<p>task-list-page works!</p>
+<div class="page-container">
+    <mat-card class="card" appearance="outlined">
+        <mat-card-header class="card-header">
+            <div class="row">
+                <mat-card-title> Hello, {{ userName }}!</mat-card-title>
+
+            </div>
+            <div class="row">
+                <form [formGroup]="searchForm" class="search-form">
+                    <app-text-input [controlKey]="'searchTerm'" placeholder="Search tasks" label="Search tasks" />
+                </form>
+                <button mat-button="filled" class="create-new-task-button" type="button" routerLink="/create">Create new
+                    task</button>
+            </div>
+
+        </mat-card-header>
+
+
+        <mat-card-content>
+            <table mat-table [dataSource]="dataSource">
+
+                <ng-container matColumnDef="title">
+                    <th mat-header-cell *matHeaderCellDef> Title </th>
+                    <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="description">
+                    <th mat-header-cell *matHeaderCellDef> Description </th>
+                    <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="isCompleted">
+                    <th mat-header-cell *matHeaderCellDef> Completed </th>
+                    <td mat-cell *matCellDef="let element"> {{element.isCompleted}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <mat-paginator 
+                [pageSize]="result?.pageSize || 10" 
+                [pageIndex]="(result?.currentPage || 1) - 1"
+                [length]="result?.totalCount || 0"
+                [pageSizeOptions]="[10, 15, 20]" 
+                (page)="onPageChange($event)"
+                showFirstLastButtons aria-label="Select page of tasks">
+            </mat-paginator>
+        </mat-card-content>
+    </mat-card>
+</div>

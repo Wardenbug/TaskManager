@@ -1,0 +1,31 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.card {
+  min-width: 800px;
+  padding: 10px 20px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.create-new-task-button {
+  margin-bottom: 20px;
+  margin-left: 10px;
+  width: 30%;
+}
+.search-form {
+  width: 100%;
+}
+
+.card-header {
+  flex-direction: column;
+}

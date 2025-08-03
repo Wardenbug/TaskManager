@@ -24,8 +24,11 @@ export class AuthService {
   }
 
   public getUserInfo() {
-    return this.http.get<User>('/api/users/me', { withCredentials: true });
+    return this.http.get<User>('api/users/me', { withCredentials: true });
   }
 
+  public refreshToken() {
+    return this.http.get('api/users/refresh', { withCredentials: true });
+  }
   constructor() { }
 }

@@ -1,6 +1,6 @@
 <mat-form-field class="full-width">
     <mat-label>{{ label }}</mat-label>
-    <input matInput placeholder="Enter text" [formControlName]="controlKey" (blur)="updateErrorMessage()" required />
+    <input matInput placeholder="Enter text" [formControlName]="controlKey" (blur)="updateErrorMessage()" />
 
 
     @if (parentFormGroup.get(controlKey)?.invalid) {

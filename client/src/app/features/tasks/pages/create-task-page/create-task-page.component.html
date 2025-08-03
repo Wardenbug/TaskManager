@@ -1,0 +1,25 @@
+<div class="create-task-page-container">
+    <mat-card class="create-task-card" appearance="outlined">
+        <mat-card-header>
+            <mat-card-title>Create new task</mat-card-title>
+        </mat-card-header>
+        <form [formGroup]="createTaskForm" (ngSubmit)="onSubmit()" class="create-task-form">
+            <div class="row">
+                <app-text-input [controlKey]="'title'" label="Title" />
+            </div>
+
+            <div class="row">
+                <app-text-input [controlKey]="'description'" label="Description" />
+            </div>
+
+            <div class="full-width">
+                <div class="row">
+                    <button matButton="filled" type="submit" [disabled]="!createTaskForm.valid">
+                        Create
+                    </button>
+                </div>
+            </div>
+        </form>
+    </mat-card>
+
+</div>

@@ -1,4 +1,4 @@
-.register-page-container {
+.create-task-page-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -6,7 +6,7 @@
   height: 100vh;
 }
 
-.register-card {
+.create-task-card {
   min-width: 500px;
   padding: 10px 20px;
 }
@@ -15,11 +15,11 @@
   flex-direction: column;
 }
 
-.login-link {
+.register-link {
+  margin-left: 10px;
   display: flex;
   align-items: center;
-  justify-content: center;
 }
-.login-form {
+.create-task-form {
   padding: 16px;
 }
