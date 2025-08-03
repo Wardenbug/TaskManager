@@ -133,10 +133,48 @@ public class UsersController(
         }
     }
 
-    [HttpGet("refresh")]
-    public async Task<IActionResult> Refresh()
+    [HttpPost("refresh")]
+    public async Task<IActionResult> Refresh(CancellationToken cancellationToken)
     {
-        return Ok();
+        logger.LogInformation("Refresh token request received");
+        try
+        {
+            var refreshToken = Request.Cookies["refresh_token"];
+
+            if (string.IsNullOrEmpty(refreshToken))
+            {
+                logger.LogWarning("No refresh token found in cookies");
+                return Unauthorized();
+            }
+
+            var response = await userService.RefreshToken(refreshToken, cancellationToken);
+
+            Response.Cookies.Append("access_token", response.Token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Lax,
+                Expires = DateTimeOffset.UtcNow.AddMinutes(10),
+                Path = "/"
+            });
+
+            Response.Cookies.Append("refresh_token", response.RefreshToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Lax,
+                Expires = DateTimeOffset.UtcNow.AddDays(7),
+                Path = "/api/users/refresh"
+            });
+
+            logger.LogInformation("Successfully refreshed token");
+            return Ok(new UserDto { Id = response.Id, UserName = response.UserName });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error during token refresh");
+            throw;
+        }
     }
 }
 

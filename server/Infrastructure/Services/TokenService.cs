@@ -39,39 +39,5 @@ namespace Infrastructure.Services
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
-        public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
-        {
-            try
-            {
-                var tokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = false,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = configuration["JwtSettings:Issuer"],
-                    ValidAudience = configuration["JwtSettings:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Secret"]))
-                };
-
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var securityToken);
-
-                if (securityToken is not JwtSecurityToken jwtSecurityToken ||
-                    !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    logger.LogError("Rejected token: unsupported algorithm or malformed JWT.");
-                    throw new SecurityTokenException("Invalid token");
-                }
-
-                return principal;
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "Failed to extract principal from expired token");
-                throw;
-            }
-        }
     }
 }

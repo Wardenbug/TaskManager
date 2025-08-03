@@ -10,5 +10,6 @@ public interface IUserRepository
     Task<bool> CheckPasswordAsync(Guid userId, string password, CancellationToken cancellationToken);
     Task UpdateRefreshTokenAsync(Guid userId, string refreshToken, DateTime expiryTime, CancellationToken cancellationToken);
     Task<User> FindUserByIdAsync(Guid userId, CancellationToken cancellationToken);
+    Task<User?> GetUserByRefreshTokenAsync(string refreshToken, CancellationToken cancellationToken);
 }
 

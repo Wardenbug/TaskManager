@@ -111,5 +111,41 @@ public class UserService(
             throw;
         }
     }
+
+    public async Task<AuthResponseDto> RefreshToken(string refreshToken, CancellationToken cancellationToken)
+    {
+        logger.LogInformation("Attempting to refresh token");
+        try
+        {
+            var user = await _userRepository.GetUserByRefreshTokenAsync(refreshToken, cancellationToken);
+
+            if (user is null)
+            {
+                logger.LogWarning("Invalid refresh token provided");
+                throw new ValidationException("Invalid refresh token");
+            }
+
+            var newToken = tokenService.CreateToken(user);
+            var newRefreshToken = tokenService.CreateRefreshToken();
+
+            await _userRepository.UpdateRefreshTokenAsync(user.Id, newRefreshToken, DateTime.UtcNow.AddDays(7), cancellationToken);
+
+            logger.LogInformation("Successfully refreshed token for user {UserId}", user.Id);
+
+            return new AuthResponseDto
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Token = newToken,
+                RefreshToken = newRefreshToken,
+                ExpiresAt = DateTime.UtcNow.AddDays(7)
+            };
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error during token refresh");
+            throw;
+        }
+    }
 }
 

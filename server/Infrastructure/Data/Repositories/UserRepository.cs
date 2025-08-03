@@ -4,6 +4,7 @@ using Core.Exceptions;
 using Core.Interfaces;
 using Infrastructure.Data.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Data.Repositories;
@@ -70,6 +71,30 @@ public class UserRepository(UserManager<ApplicationUser> userManager, IMapper ma
         var user = await userManager.FindByIdAsync(userId.ToString());
 
         return mapper.Map<User>(user);
+    }
+
+    public async Task<User?> GetUserByRefreshTokenAsync(string refreshToken, CancellationToken cancellationToken)
+    {
+        logger.LogInformation("Finding user by refresh token");
+        try
+        {
+            var user = await userManager.Users
+                .FirstOrDefaultAsync(u => u.RefreshToken == refreshToken && u.RefreshTokenExpiryTime > DateTime.UtcNow);
+
+            if (user is null)
+            {
+                logger.LogWarning("No user found with valid refresh token");
+                return null;
+            }
+
+            logger.LogInformation("Successfully found user with ID {UserId} by refresh token", user.Id);
+            return mapper.Map<User>(user);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error finding user by refresh token");
+            throw;
+        }
     }
 
     public async Task<User> RegisterAsync(User user, string password, CancellationToken cancellationToken)
