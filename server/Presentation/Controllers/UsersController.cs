@@ -80,7 +80,7 @@ public class UsersController(
                 Secure = true,
                 SameSite = SameSiteMode.Lax,
                 Expires = DateTimeOffset.UtcNow.AddDays(7),
-                Path = "/auth/refresh"
+                Path = "api/users/refresh"
             });
 
 
@@ -131,6 +131,12 @@ public class UsersController(
             logger.LogError(ex, "Error retrieving current user information.");
             throw;
         }
+    }
+
+    [HttpGet("refresh")]
+    public async Task<IActionResult> Refresh()
+    {
+        return Ok();
     }
 }
 
