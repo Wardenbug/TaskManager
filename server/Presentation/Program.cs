@@ -59,12 +59,12 @@ try
 
     app.UseAuthentication();
     app.UseAuthorization();
-    app.MapHealthChecks(
-    "/health",
-        new HealthCheckOptions
-        {
-            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-        });
+    //app.MapHealthChecks(
+    //"/health",
+    //    new HealthCheckOptions
+    //    {
+    //        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+    //    });
     app.MapHealthChecksUI();
     app.MapControllers();
 

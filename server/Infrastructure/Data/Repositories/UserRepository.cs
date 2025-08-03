@@ -9,7 +9,10 @@ using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Data.Repositories;
 
-public class UserRepository(UserManager<ApplicationUser> userManager, IMapper mapper, ILogger<UserRepository> logger) : IUserRepository
+public class UserRepository(
+    UserManager<ApplicationUser> userManager,
+    IMapper mapper,
+    ILogger<UserRepository> logger) : IUserRepository
 {
     public async Task<bool> CheckPasswordAsync(Guid userId, string password, CancellationToken cancellationToken)
     {
@@ -78,12 +81,13 @@ public class UserRepository(UserManager<ApplicationUser> userManager, IMapper ma
         logger.LogInformation("Finding user by refresh token");
         try
         {
-            var user = await userManager.Users
+            var user = await userManager
+                .Users
                 .FirstOrDefaultAsync(u => u.RefreshToken == refreshToken && u.RefreshTokenExpiryTime > DateTime.UtcNow);
 
             if (user is null)
             {
-                logger.LogWarning("No user found with valid refresh token");
+                logger.LogWarning("No user found with valid refresh token {Token}", refreshToken);
                 return null;
             }
 
@@ -127,6 +131,7 @@ public class UserRepository(UserManager<ApplicationUser> userManager, IMapper ma
         try
         {
             var user = await userManager.FindByIdAsync(userId.ToString());
+
             if (user is not null)
             {
                 user.RefreshToken = refreshToken;

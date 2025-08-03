@@ -70,7 +70,7 @@ public class UsersController(
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.Lax,
-                Expires = DateTimeOffset.UtcNow.AddMinutes(10),
+                Expires = DateTimeOffset.UtcNow.AddMinutes(1),
                 Path = "/"
             });
 
@@ -154,7 +154,7 @@ public class UsersController(
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.Lax,
-                Expires = DateTimeOffset.UtcNow.AddMinutes(10),
+                Expires = DateTimeOffset.UtcNow.AddMinutes(1),
                 Path = "/"
             });
 
@@ -164,7 +164,7 @@ public class UsersController(
                 Secure = true,
                 SameSite = SameSiteMode.Lax,
                 Expires = DateTimeOffset.UtcNow.AddDays(7),
-                Path = "/api/users/refresh"
+                Path = "api/users/refresh"
             });
 
             logger.LogInformation("Successfully refreshed token");
