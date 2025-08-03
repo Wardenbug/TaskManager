@@ -28,7 +28,7 @@ export class AuthService {
   }
 
   public refreshToken() {
-    return this.http.get('api/users/refresh', { withCredentials: true });
+    return this.http.post('api/users/refresh', { withCredentials: true });
   }
   constructor() { }
 }
